@@ -121,3 +121,4 @@ app.*.symbols
 .idea/
 cartmates.iml
 .env
+opencode.json

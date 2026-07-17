@@ -25,6 +25,13 @@ class AuthLocalDatasource {
       'role': 'admin',
       'approvalStatus': 'approved',
     },
+    'pending_user': {
+      'password': 'pending_pass',
+      'email': 'pending@university.edu',
+      'universityRegNo': '2023-REG-004',
+      'role': 'regular',
+      'approvalStatus': 'pending',
+    },
   };
 
   /// Validate login credentials
