@@ -1,32 +1,24 @@
-import 'package:cartmates/src/utils/utils.dart';
-import 'package:cartmates/src/features/auth/domain/entities/user.dart';
+import 'package:cartmates/src/features/auth/domain/entities/auth_user.dart';
+import 'package:fpdart/fpdart.dart';
 
 abstract class AuthRepository {
-  /// Stream of auth state changes. Emits AppUser when authenticated, null when not.
-  Stream<AppUser?> get onAuthStateChanged;
+  /// Login with username and password
+  Future<Either<String, AuthUser>> login(String username, String password);
 
-  /// Sign in with email and password
-  FutureEither<AppUser> login({
+  /// Register a new user
+  Future<Either<String, AuthUser>> register({
+    required String username,
     required String email,
     required String password,
+    required String universityRegNo,
   });
 
-  /// Sign up with email, password, and optional name
-  FutureEither<AppUser> signUp({
-    required String name,
-    required String email,
-    required String password,
-  });
+  /// Forget password
+  Future<Either<String, void>> forgotPassword({required String email});
 
-  /// Send a password reset email
-  FutureEither<void> forgotPassword({
-    required String email,
-  });
+  /// Get current authenticated user
+  Future<Either<String, AuthUser?>> getCurrentUser();
 
-  /// Sign out the current user
-  FutureEither<void> logout();
-  
-  /// Check if the user is currently authenticated natively
-  FutureEither<AppUser?> checkAuthState();
+  /// Logout current user
+  Future<Either<String, void>> logout();
 }
-

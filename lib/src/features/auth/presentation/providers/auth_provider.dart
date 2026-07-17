@@ -1,89 +1,70 @@
-import 'package:cartmates/src/imports/core_imports.dart';
+import 'package:cartmates/src/features/auth/data/datasources/auth_local_datasource.dart';
+import 'package:cartmates/src/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:cartmates/src/features/auth/domain/entities/auth_user.dart';
+import 'package:cartmates/src/features/auth/domain/repositories/auth_repository.dart';
 import 'package:cartmates/src/imports/packages_imports.dart';
 
-import 'package:cartmates/src/features/auth/domain/repositories/auth_repository.dart';
-import 'package:cartmates/src/features/auth/data/repositories/auth_repository_impl.dart';
-
-// Provides the single instance of AuthRepositoryImpl 
+/// Auth repository provider
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
-  return AuthRepositoryImpl();
+  final datasource = AuthLocalDatasource();
+  return AuthRepositoryImpl(localDatasource: datasource);
 });
 
-final authControllerProvider = StateNotifierProvider<AuthController, bool>((ref) {
-  return AuthController(
-    repository: ref.read(authRepositoryProvider),
-  );
+/// Current authenticated user state
+final currentUserProvider =
+    StateNotifierProvider<AuthNotifier, AsyncValue<AuthUser?>>((ref) {
+  final repository = ref.watch(authRepositoryProvider);
+  return AuthNotifier(repository);
 });
 
-class AuthController extends StateNotifier<bool> {
+class AuthNotifier extends StateNotifier<AsyncValue<AuthUser?>> {
   final AuthRepository _repository;
 
-  AuthController({
-    required AuthRepository repository,
-  })  : _repository = repository,
-        super(false); // loading state is false
+  AuthNotifier(this._repository) : super(const AsyncValue.data(null));
 
-  void login({required BuildContext context, required String email, required String password}) async {
-    state = true;
-    
-    final result = await _repository.login(email: email, password: password);
-    
-    state = false;
+  Future<void> login(String username, String password) async {
+    state = const AsyncValue.loading();
+    final result = await _repository.login(username, password);
     result.fold(
-      (failure) {
-        if (context.mounted) {
-          showToast(context, message: failure.message, status: 'error');
-        }
-      },
-      (user) {
-        if (rootContext?.mounted ?? false) {
-          rootContext!.go(AppRoutes.home);
-        }
-      },
+      (error) => state = AsyncValue.error(error, StackTrace.current),
+      (user) => state = AsyncValue.data(user),
     );
   }
 
-  void signUp({required BuildContext context, required String name, required String email, required String password}) async {
-    state = true;
-    
-    final result = await _repository.signUp(name: name, email: email, password: password);
-    
-    state = false;
+  Future<void> register({
+    required String username,
+    required String email,
+    required String password,
+    required String universityRegNo,
+  }) async {
+    state = const AsyncValue.loading();
+    final result = await _repository.register(
+      username: username,
+      email: email,
+      password: password,
+      universityRegNo: universityRegNo,
+    );
     result.fold(
-      (failure) {
-        if (context.mounted) {
-          showToast(context, message: failure.message, status: 'error');
-        }
-      },
-      (user) {
-        if (rootContext?.mounted ?? false) {
-          rootContext!.go(AppRoutes.home);
-        }
-      },
+      (error) => state = AsyncValue.error(error, StackTrace.current),
+      (user) => state = AsyncValue.data(user),
     );
   }
 
-  void forgotPassword({required BuildContext context, required String email}) async {
-    state = true;
-    
+  Future<void> forgotPassword({required String email}) async {
+    state = const AsyncValue.loading();
     final result = await _repository.forgotPassword(email: email);
-
-    state = false;
     result.fold(
-      (failure) {
-        if (context.mounted) {
-          showToast(context, message: failure.message, status: 'error');
-        }
-      },
-      (success) {
-        if (context.mounted) {
-          showToast(context, message: 'Password reset link sent successfully', status: 'success');
-        }
-        if (context.mounted) {
-          context.go(AppRoutes.login);
-        }
-      },
+      (error) => state = AsyncValue.error(error, StackTrace.current),
+      (_) => state = const AsyncValue.data(null),
+    );
+  }
+
+  Future<void> logout() async {
+    state = const AsyncValue.loading();
+    final result = await _repository.logout();
+    result.fold(
+      (error) => state = AsyncValue.error(error, StackTrace.current),
+      (_) => state = const AsyncValue.data(null),
     );
   }
 }
-
