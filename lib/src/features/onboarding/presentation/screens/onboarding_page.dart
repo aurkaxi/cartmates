@@ -1,195 +1,163 @@
 import 'package:cartmates/src/imports/imports.dart';
 
-class OnboardingPage extends StatefulWidget {
+class OnboardingPage extends StatelessWidget {
   const OnboardingPage({super.key});
 
   @override
-  State<OnboardingPage> createState() => _OnboardingPageState();
-}
-
-class _OnboardingPageState extends State<OnboardingPage> {
-  late final PageController _pageController;
-  int _currentIndex = 0;
-
-  late final List<Map<String, dynamic>> _onboardingData;
-
-  @override
-  void initState() {
-    super.initState();
-    _pageController = PageController();
-    _onboardingData = [
-      {
-        'title': 'Your Journey,\nPerfectly Planned',
-        'subtitle':
-            'Effortlessly create and organize your\ndream trips. Start exploring now!',
-        'pageWidget': const FlutterLogo(size: 200),
-      },
-      {
-        'title': 'Discover\nFriends Nearby',
-        'subtitle':
-            'See where your friends are traveling and\nexplore the world together.',
-        'pageWidget': const FlutterLogo(size: 200),
-      },
-      {
-        'title': 'Stay Updated\nwith Top Places',
-        'subtitle':
-            'Find trending destinations and must-see attractions,\nall tailored to enhance your travel plans.',
-        'pageWidget': const FlutterLogo(size: 200),
-      },
-    ];
-  }
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
-
-  void _onGetStarted() {
-    // Navigate back or to home. For template purpose:
-    context.go(AppRoutes.login);
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
-    final colorScheme = theme.colorScheme;
-    final textTheme = theme.textTheme;
+    final cs = context.theme.colorScheme;
+    final tt = context.theme.textTheme;
 
-    return _OnboardingView(
-      theme: theme,
-      colorScheme: colorScheme,
-      textTheme: textTheme,
-      pageController: _pageController,
-      currentIndex: _currentIndex,
-      onboardingData: _onboardingData,
-      onPageChanged: (index) => setState(() => _currentIndex = index),
-      onGetStarted: _onGetStarted,
+    return Scaffold(
+      backgroundColor: cs.surface,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.all(AppSpacing.lg.w),
+          child: Column(
+            spacing: 32.h,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 96.w,
+                    height: 96.h,
+                    decoration: BoxDecoration(
+                      color: cs.surfaceContainerHighest,
+                      borderRadius: BorderRadius.circular(24.r),
+                    ),
+                    child: Center(
+                      child: Text('🛒', style: TextStyle(fontSize: 48.sp)),
+                    ),
+                  ),
+                  SizedBox(height: 16.h),
+                  Text(
+                    'cartmates',
+                    style: tt.headlineMedium?.copyWith(
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: -0.5,
+                      color: cs.onSurface,
+                      fontSize: 28.sp,
+                    ),
+                  ),
+                  SizedBox(height: 8.h),
+                  Text(
+                    'Buy together, save together.',
+                    style: tt.bodyLarge?.copyWith(
+                      color: cs.onSurfaceVariant,
+                      fontSize: 16.sp,
+                    ),
+                  ),
+                  SizedBox(height: 32.h),
+                  _FeatureCard(
+                    icon: '💰',
+                    title: 'Save on Product Cost',
+                    subtitle: 'Team up to unlock bulk tier discounts.',
+                    cs: cs,
+                    tt: tt,
+                  ),
+                  SizedBox(height: 12.h),
+                  _FeatureCard(
+                    icon: '🚚',
+                    title: 'Save on Delivery',
+                    subtitle: 'Split shipping fees with your campus community.',
+                    cs: cs,
+                    tt: tt,
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  AppButton(
+                    label: 'Register',
+                    onPressed: () => context.go(AppRoutes.signup),
+                    variant: ButtonVariant.primary,
+                    height: ButtonSize.large,
+                    isFullWidth: true,
+                  ),
+                  SizedBox(height: 12.h),
+                  AppButton(
+                    label: 'Log In',
+                    onPressed: () => context.go(AppRoutes.login),
+                    variant: ButtonVariant.secondary,
+                    height: ButtonSize.large,
+                    isFullWidth: true,
+                  ),
+                  SizedBox(height: 12.h),
+                  AppButton(
+                    label: 'Continue as Guest',
+                    onPressed: () => context.go(AppRoutes.home),
+                    variant: ButtonVariant.ghost,
+                    height: ButtonSize.large,
+                    isFullWidth: true,
+                    textColor: cs.onSurfaceVariant,
+                  ),
+                  SizedBox(height: 24.h),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
 
-class _OnboardingView extends StatelessWidget {
-  const _OnboardingView({
-    required this.theme,
-    required this.colorScheme,
-    required this.textTheme,
-    required this.pageController,
-    required this.currentIndex,
-    required this.onboardingData,
-    required this.onPageChanged,
-    required this.onGetStarted,
+class _FeatureCard extends StatelessWidget {
+  const _FeatureCard({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.cs,
+    required this.tt,
   });
 
-  final ThemeData theme;
-  final ColorScheme colorScheme;
-  final TextTheme textTheme;
-  final PageController pageController;
-  final int currentIndex;
-  final List<Map<String, dynamic>> onboardingData;
-  final ValueChanged<int> onPageChanged;
-  final VoidCallback onGetStarted;
+  final String icon;
+  final String title;
+  final String subtitle;
+  final ColorScheme cs;
+  final TextTheme tt;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: colorScheme.surface,
-      body: SafeArea(
-        child: Column(
-          children: [
-            // Top branding
-            Padding(
-              padding: EdgeInsets.only(
-                top: AppSpacing.lg.h,
-                bottom: AppSpacing.md.h,
-              ),
-              child: Text(
-                'FlutterInit.',
-                style: textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.w900,
-                  color: colorScheme.onSurface,
-                  fontSize: 22.sp,
-                ),
-              ),
-            ),
-
-            // PageView
-            Expanded(
-              child: PageView.builder(
-                controller: pageController,
-                itemCount: onboardingData.length,
-                onPageChanged: onPageChanged,
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      // Dynamic Illustration Section
-                      Expanded(
-                        child: Center(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: AppSpacing.lg.w,
-                            ),
-                            child: onboardingData[index]['pageWidget'] as Widget,
-                          ),
-                        ),
-                      ),
-                      
-                      // Text Section
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: AppSpacing.xl.w,
-                        ),
-                        child: Column(
-                          children: [
-                            Text(
-                              onboardingData[index]['title'] as String,
-                              textAlign: TextAlign.center,
-                              style: textTheme.headlineMedium?.copyWith(
-                                fontWeight: FontWeight.w700,
-                                color: colorScheme.onSurface,
-                                height: 1.2,
-                                fontSize: 24.sp,
-                              ),
-                            ),
-                            SizedBox(height: AppSpacing.md.h),
-                            Text(
-                              onboardingData[index]['subtitle'] as String,
-                              textAlign: TextAlign.center,
-                              style: textTheme.bodyMedium?.copyWith(
-                                color: colorScheme.onSurfaceVariant,
-                                height: 1.5,
-                                fontSize: 14.sp,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 40.h),
-                    ],
-                  );
-                },
-              ),
-            ),
-
-            // Bottom Section: Dots and Button
-            Padding(
-              padding: EdgeInsets.all(AppSpacing.xl.w),
-              child: Column(
-                children: [
-                   SizedBox(height: AppSpacing.xl),
-                  // Get Started Button
-                  AppButton(
-                    label: 'Get Started',
-                    onPressed: onGetStarted,
-                    variant: ButtonVariant.primary,
-                    width: ButtonSize.medium,
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(16.w),
+      decoration: BoxDecoration(
+        color: cs.surfaceContainerHighest.withValues(alpha: 0.5),
+        border: Border.all(color: cs.outlineVariant),
+        borderRadius: BorderRadius.circular(16.r),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(icon, style: TextStyle(fontSize: 24.sp)),
+          SizedBox(width: 12.w),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: tt.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w500,
+                    color: cs.onSurface,
+                    fontSize: 14.sp,
                   ),
-                  SizedBox(height: AppSpacing.md),
-                ],
-              ),
+                ),
+                SizedBox(height: 4.h),
+                Text(
+                  subtitle,
+                  style: tt.bodySmall?.copyWith(
+                    color: cs.onSurfaceVariant,
+                    fontSize: 12.sp,
+                    height: 1.4,
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

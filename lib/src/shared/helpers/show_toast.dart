@@ -52,7 +52,7 @@ void showToast(
       leading: AppIcon(
         icon: icon ??
             (toastStatus == 'success'
-                ? HugeIcons.strokeRoundedTickCircle
+                ? HugeIcons.strokeRoundedTick01
                 : toastStatus == 'error'
                     ? HugeIcons.strokeRoundedAlertCircle
                     : HugeIcons.strokeRoundedInformationCircle),

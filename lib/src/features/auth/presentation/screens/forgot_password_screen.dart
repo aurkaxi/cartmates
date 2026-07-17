@@ -1,13 +1,12 @@
-import 'package:cartmates/src/imports/core_imports.dart';
-import 'package:cartmates/src/imports/packages_imports.dart';
-
 import 'package:cartmates/src/features/auth/presentation/providers/auth_provider.dart';
+import 'package:cartmates/src/imports/imports.dart';
 
 class ForgotPasswordScreen extends ConsumerStatefulWidget {
   const ForgotPasswordScreen({super.key});
 
   @override
-  ConsumerState<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
+  ConsumerState<ForgotPasswordScreen> createState() =>
+      _ForgotPasswordScreenState();
 }
 
 class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
@@ -22,19 +21,18 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isLoading = ref.watch(authControllerProvider);
+    final authState = ref.watch(currentUserProvider);
+    final isLoading = authState.isLoading;
 
     final cs = context.theme.colorScheme;
     final tt = context.theme.textTheme;
 
     Future<void> handleForgotPassword() async {
       if (!(_formKey.currentState?.validate() ?? false)) return;
-      
 
-      ref.read(authControllerProvider.notifier).forgotPassword(
-        context: context, 
-        email: _emailController.text,
-      );
+      ref.read(currentUserProvider.notifier).forgotPassword(
+            email: _emailController.text,
+          );
     }
 
     return _ForgotPasswordView(
@@ -79,7 +77,8 @@ class _ForgotPasswordView extends StatelessWidget {
                 SizedBox(height: AppSpacing.xl.h),
                 Text(
                   'Reset Password',
-                  style: tt.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
+                  style:
+                      tt.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: AppSpacing.sm.h),
                 Text(

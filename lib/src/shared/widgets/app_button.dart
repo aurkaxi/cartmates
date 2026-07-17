@@ -43,7 +43,7 @@ class AppButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = context.theme.colorScheme;
-    final appColors = context.theme.extension<AppColorsExtension>()!;
+    final appColors = context.theme.extension<AppColorsExtension>();
     final isDisabled = onPressed == null || isLoading;
 
     final double buttonHeight = switch (height) {
@@ -77,7 +77,7 @@ class AppButton extends StatelessWidget {
       ButtonVariant.outline   => (Colors.transparent, cs.primary, BorderSide(color: cs.outline, width: 1.5)),
       ButtonVariant.ghost     => (Colors.transparent, cs.primary, null),
       ButtonVariant.danger    => (cs.error, cs.onError, null),
-      ButtonVariant.success   => (appColors.success, appColors.onSuccess, null),
+      ButtonVariant.success   => (appColors?.success ?? cs.primary, appColors?.onSuccess ?? cs.onPrimary, null),
     };
 
     final child = AnimatedSwitcher(
@@ -101,12 +101,15 @@ class AppButton extends StatelessWidget {
                   prefixIcon!,
                   SizedBox(width: 8.w),
                 ],
-                Text(
-                  label,
-                  style: TextStyle(
-                    fontSize: fontSize,
-                    fontWeight: FontWeight.w600,
-                    color: isDisabled ?  fg.withValues(alpha: 0.5) : textColor ?? fg,
+                Flexible(
+                  child: Text(
+                    label,
+                    style: TextStyle(
+                      fontSize: fontSize,
+                      fontWeight: FontWeight.w600,
+                      color: isDisabled ?  fg.withValues(alpha: 0.5) : textColor ?? fg,
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
                 if (suffixIcon != null) ...[

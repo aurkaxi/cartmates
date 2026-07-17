@@ -78,13 +78,14 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+  mocktail: ^1.0.4
 
   # Code Generation
 
-dependency_overrides:
-  # Riverpod 3.x requires a newer test_api than what Flutter SDK pins.
-  # This override allows resolution while remaining compatible with flutter_test.
-  test_api: 0.7.6
+# dependency_overrides:
+#   # Riverpod 3.x requires a newer test_api than what Flutter SDK pins.
+#   # This override allows resolution while remaining compatible with flutter_test.
+#   test_api: 0.7.6
 
 flutter:
   uses-material-design: true

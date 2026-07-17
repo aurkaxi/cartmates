@@ -10,14 +10,14 @@ class AppIcon extends StatelessWidget {
   });
 
   /// The icon to display.
-  final IconData icon;
+  final List<List<dynamic>> icon;
   final double? size;
   final Color? color;
 
   @override
   Widget build(BuildContext context) {
-    return Icon(
-      icon,
+    return HugeIcon(
+      icon: icon,
       size: size,
       color: color,
     );
