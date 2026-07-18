@@ -35,7 +35,7 @@ class AppErrorWidget extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            AppIcon(icon: icon, size: 56, color: cs.error),
+            HugeIcon(icon: icon, size: 56, color: cs.error),
             const SizedBox(height: 16),
             Text(
               title,

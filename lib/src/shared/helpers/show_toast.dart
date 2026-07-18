@@ -14,30 +14,30 @@ void showToast(
 
   final (backgroundColor, foregroundColor, iconColor) = switch (toastStatus) {
     'error' => (
-      colorScheme.errorContainer,
-      colorScheme.onErrorContainer,
-      colorScheme.error,
-    ),
+        colorScheme.errorContainer,
+        colorScheme.onErrorContainer,
+        colorScheme.error,
+      ),
     'success' => (
-      appColors.successContainer ?? appColors.success,
-      appColors.onSuccessContainer ?? appColors.onSuccess,
-      appColors.success,
-    ),
+        appColors.successContainer ?? appColors.success,
+        appColors.onSuccessContainer ?? appColors.onSuccess,
+        appColors.success,
+      ),
     'warning' => (
-      appColors.warningContainer ?? appColors.warning,
-      appColors.onWarningContainer ?? appColors.onWarning,
-      appColors.warning,
-    ),
+        appColors.warningContainer ?? appColors.warning,
+        appColors.onWarningContainer ?? appColors.onWarning,
+        appColors.warning,
+      ),
     'info' => (
-      appColors.infoContainer ?? appColors.info,
-      appColors.onInfoContainer ?? appColors.onInfo,
-      appColors.info,
-    ),
+        appColors.infoContainer ?? appColors.info,
+        appColors.onInfoContainer ?? appColors.onInfo,
+        appColors.info,
+      ),
     _ => (
-      context.theme.scaffoldBackgroundColor,
-      colorScheme.onSurface,
-      colorScheme.onSurfaceVariant,
-    ),
+        context.theme.scaffoldBackgroundColor,
+        colorScheme.onSurface,
+        colorScheme.onSurfaceVariant,
+      ),
   };
 
   return ToastBar(
@@ -49,10 +49,10 @@ void showToast(
     builder: (context) => ToastCard(
       color: backgroundColor,
       shadowColor: colorScheme.shadow.withValues(alpha: 0.05),
-      leading: AppIcon(
+      leading: HugeIcon(
         icon: icon ??
             (toastStatus == 'success'
-                ? HugeIcons.strokeRoundedTickCircle
+                ? HugeIcons.strokeRoundedTick04
                 : toastStatus == 'error'
                     ? HugeIcons.strokeRoundedAlertCircle
                     : HugeIcons.strokeRoundedInformationCircle),

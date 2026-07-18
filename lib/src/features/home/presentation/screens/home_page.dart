@@ -1,8 +1,6 @@
+import 'package:cartmates/src/features/auth/presentation/providers/session_provider.dart';
 import 'package:cartmates/src/imports/core_imports.dart';
 import 'package:cartmates/src/imports/packages_imports.dart';
-
-import 'package:cartmates/src/features/auth/presentation/providers/session_provider.dart';
-
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -18,7 +16,7 @@ class HomePage extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: colorScheme.surface,
-      appBar: AppTopBar(
+      appBar: const AppTopBar(
         title: 'Home',
       ),
       body: SafeArea(
@@ -28,7 +26,7 @@ class HomePage extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              AppIcon(
+              HugeIcon(
                 icon: HugeIcons.strokeRoundedHome01,
                 size: 60.sp,
                 color: colorScheme.primary,
@@ -43,16 +41,18 @@ class HomePage extends ConsumerWidget {
                   fontSize: 28.sp,
                 ),
               ),
-                            SizedBox(height: AppSpacing.md.h),
+              SizedBox(height: AppSpacing.md.h),
               Text(
-                user != null && user.name != null ? user.email : ('You have successfully completed the onboarding process.'),
+                user != null && user.name != null
+                    ? user.email
+                    : ('You have successfully completed the onboarding process.'),
                 textAlign: TextAlign.center,
                 style: textTheme.bodyMedium?.copyWith(
                   color: colorScheme.onSurfaceVariant,
                   fontSize: 14.sp,
                 ),
               ),
-                          ],
+            ],
           ),
         ),
       ),
