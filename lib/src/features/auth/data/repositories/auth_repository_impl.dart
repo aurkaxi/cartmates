@@ -20,12 +20,12 @@ class AuthRepositoryImpl implements AuthRepository {
     });
   }
 
-  @override
+@override
   FutureEither<AppUser> login({
-    required String email, 
+    required String reg,
     required String password,
   }) async {
-    final result = await _authService.login(email: email, password: password);
+    final result = await _authService.login(reg: reg, password: password);
     
     return result.flatMap((userData) {
       if (userData == null) {
@@ -35,7 +35,7 @@ class AuthRepositoryImpl implements AuthRepository {
       final data = userData['user'] ?? userData;
       final user = AppUser(
         id: data['id'].toString(), 
-        email: data['email'] ?? email, 
+        email: data['email'] ?? reg, 
         name: data['name'],
       );
       

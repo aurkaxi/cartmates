@@ -11,13 +11,14 @@ class LoginScreen extends ConsumerStatefulWidget {
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
+  final _reg = TextEditingController();
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
+  bool _rememberMe = true;
 
   @override
   void dispose() {
-    _emailController.dispose();
+    _reg.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -34,16 +35,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
       ref.read(authControllerProvider.notifier).login(
             context: context,
-            email: _emailController.text,
+            reg: _reg.text,
             password: _passwordController.text,
           );
     }
 
     return _LoginView(
       formKey: _formKey,
-      emailController: _emailController,
+      regController: _reg,
       passwordController: _passwordController,
       obscurePassword: _obscurePassword,
+      rememberMe: _rememberMe,
+      onToggleRememberMe: (value) => setState(() => _rememberMe = !_rememberMe),
       isLoading: isLoading,
       onToggleObscure: () =>
           setState(() => _obscurePassword = !_obscurePassword),
@@ -57,9 +60,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 class _LoginView extends StatelessWidget {
   const _LoginView({
     required this.formKey,
-    required this.emailController,
+    required this.regController,
     required this.passwordController,
     required this.obscurePassword,
+    required this.rememberMe,
+    required this.onToggleRememberMe,
     required this.isLoading,
     required this.onToggleObscure,
     required this.onLogin,
@@ -68,9 +73,11 @@ class _LoginView extends StatelessWidget {
   });
 
   final GlobalKey<FormState> formKey;
-  final TextEditingController emailController;
+  final TextEditingController regController;
   final TextEditingController passwordController;
   final bool obscurePassword;
+  final bool rememberMe;
+  final ValueChanged<bool?> onToggleRememberMe;
   final bool isLoading;
   final VoidCallback onToggleObscure;
   final VoidCallback onLogin;
@@ -105,16 +112,13 @@ class _LoginView extends StatelessWidget {
                   child: Column(
                     children: [
                       AppTextField(
-                        controller: emailController,
+                        controller: regController,
                         enabled: !isLoading,
-                        label: 'Email',
-                        prefixIcon: const Icon(Icons.email_outlined),
+                        label: 'Registration No.',
+                        prefixIcon: const Icon(Icons.numbers),
                         validator: (v) {
                           if (AppUtils.isBlank(v)) {
-                            return 'Email is required';
-                          }
-                          if (!AppUtils.isValidEmail(v!)) {
-                            return 'Enter a valid email';
+                            return 'Registration No. is required';
                           }
                           return null;
                         },
@@ -153,8 +157,8 @@ class _LoginView extends StatelessWidget {
                                 width: 20.w,
                                 height: 20.h,
                                 child: Checkbox(
-                                  value: true,
-                                  onChanged: (value) {},
+                                  value: rememberMe,
+                                  onChanged: onToggleRememberMe,
                                 ),
                               ),
                               Text(
@@ -186,7 +190,7 @@ class _LoginView extends StatelessWidget {
                         isLoading: isLoading,
                         onPressed: isLoading ? null : onLogin,
                         width: ButtonSize.large,
-                        isFullWidth: false,
+                        isFullWidth: true,
                       ),
                     ],
                   ),

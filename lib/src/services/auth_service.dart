@@ -17,12 +17,12 @@ class AuthService {
   Stream<Map<String, dynamic>?> get authStateChanges => _authStateController.stream;
 
   FutureEither<Map<String, dynamic>?> login({
-    required String email,
+    required String reg,
     required String password,
   }) async {
     return runTask(() async {
       final response = await _dio.post<Map<String, dynamic>>('/auth/login', data: {
-        'email': email,
+        'reg': reg,
         'password': password,
       });
       final data = response.data!;

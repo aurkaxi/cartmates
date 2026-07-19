@@ -5,9 +5,9 @@ abstract class AuthRepository {
   /// Stream of auth state changes. Emits AppUser when authenticated, null when not.
   Stream<AppUser?> get onAuthStateChanged;
 
-  /// Sign in with email and password
+  /// Sign in with registration number and password
   FutureEither<AppUser> login({
-    required String email,
+    required String reg,
     required String password,
   });
 
