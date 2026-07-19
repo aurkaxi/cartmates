@@ -1,7 +1,6 @@
+import 'package:cartmates/src/features/auth/presentation/providers/auth_provider.dart';
 import 'package:cartmates/src/imports/core_imports.dart';
 import 'package:cartmates/src/imports/packages_imports.dart';
-
-import 'package:cartmates/src/features/auth/presentation/providers/auth_provider.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -32,13 +31,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
     Future<void> handleLogin() async {
       if (!(_formKey.currentState?.validate() ?? false)) return;
-      
 
       ref.read(authControllerProvider.notifier).login(
-        context: context, 
-        email: _emailController.text, 
-        password: _passwordController.text,
-      );
+            context: context,
+            email: _emailController.text,
+            password: _passwordController.text,
+          );
     }
 
     return _LoginView(
@@ -47,7 +45,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       passwordController: _passwordController,
       obscurePassword: _obscurePassword,
       isLoading: isLoading,
-      onToggleObscure: () => setState(() => _obscurePassword = !_obscurePassword),
+      onToggleObscure: () =>
+          setState(() => _obscurePassword = !_obscurePassword),
       onLogin: handleLogin,
       cs: cs,
       tt: tt,
@@ -88,14 +87,14 @@ class _LoginView extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: AppSpacing.xl.h),
                 Text(
                   'Welcome Back',
-                  style: tt.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
+                  style:
+                      tt.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: AppSpacing.sm.h),
                 Text(
-                  'Log in to continue your journey',
+                  'Sign in to coordinate your next group buy.',
                   textAlign: TextAlign.center,
                   style: tt.bodyMedium?.copyWith(color: cs.onSurfaceVariant),
                 ),
@@ -128,10 +127,12 @@ class _LoginView extends StatelessWidget {
                         obscureText: obscurePassword,
                         prefixIcon: const Icon(Icons.lock_outline),
                         suffixIcon: IconButton(
-                          icon: Icon(obscurePassword ? Icons.visibility_off : Icons.visibility),
+                          icon: Icon(obscurePassword
+                              ? Icons.visibility_off
+                              : Icons.visibility),
                           onPressed: onToggleObscure,
                         ),
-                         validator: (v) {
+                        validator: (v) {
                           if (AppUtils.isBlank(v)) {
                             return 'Password is required';
                           }
@@ -158,7 +159,8 @@ class _LoginView extends StatelessWidget {
                               ),
                               Text(
                                 'Remember Me',
-                                style: tt.bodySmall?.copyWith(color: cs.onSurfaceVariant),
+                                style: tt.bodySmall
+                                    ?.copyWith(color: cs.onSurfaceVariant),
                               ),
                             ],
                           ),
@@ -189,63 +191,7 @@ class _LoginView extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(height: AppSpacing.xxxl.h),
-                Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      spacing: 20.w,
-                      children: [
-                        SizedBox(
-                          width: 50.w,
-                          height: 50.w,
-                          child: TextButton(
-                            onPressed: () {},
-                            style: TextButton.styleFrom(
-                              backgroundColor: const Color(0xFFEA4335).withValues(alpha: 0.8),
-                              padding: EdgeInsets.symmetric(horizontal: 10.w),
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: AppBorders.button,
-                              ),
-                            ),
-                            child: SvgPicture.asset(AppAssets.googleIcon),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 50.w,
-                          height: 50.w,
-                          child: TextButton(
-                            onPressed: () {},
-                            style: TextButton.styleFrom(
-                              backgroundColor: const Color(0xFF4285F4),
-                              padding: EdgeInsets.symmetric(horizontal: 10.w),
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: AppBorders.button,
-                              ),
-                            ),
-                            child: SvgPicture.asset(AppAssets.facebookIcon),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 50.w,
-                          height: 50.w,
-                          child: TextButton(
-                            onPressed: () {},
-                            style: TextButton.styleFrom(
-                              backgroundColor: const Color(0xFF000000),
-                              padding: EdgeInsets.symmetric(horizontal: 10.w),
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: AppBorders.button,
-                              ),
-                            ),
-                            child: SvgPicture.asset(AppAssets.appleIcon),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: AppSpacing.xl.h),
-                  ],
-                ),
+                SizedBox(height: AppSpacing.md.h),
                 InkWell(
                   onTap: () {
                     context.push(AppRoutes.signup);
@@ -253,7 +199,8 @@ class _LoginView extends StatelessWidget {
                   child: RichText(
                     text: TextSpan(
                       text: 'Don\'t have an account? ',
-                      style: tt.bodyMedium?.copyWith(color: cs.onSurfaceVariant),
+                      style:
+                          tt.bodyMedium?.copyWith(color: cs.onSurfaceVariant),
                       children: [
                         TextSpan(
                           text: 'Sign Up',
