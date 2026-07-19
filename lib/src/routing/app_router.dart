@@ -1,18 +1,20 @@
-import 'package:go_router/go_router.dart';
-import 'package:cartmates/src/routing/global_navigator.dart';
-import 'package:cartmates/src/routing/app_routes.dart';
-
+import 'package:cartmates/src/features/auth/presentation/screens/forgot_password_screen.dart';
 import 'package:cartmates/src/features/auth/presentation/screens/login_screen.dart';
 import 'package:cartmates/src/features/auth/presentation/screens/signup_screen.dart';
-import 'package:cartmates/src/features/auth/presentation/screens/forgot_password_screen.dart';
-
-import 'package:cartmates/src/features/home/presentation/screens/home_page.dart';
 import 'package:cartmates/src/features/onboarding/presentation/screens/onboarding_page.dart';
-
+import 'package:cartmates/src/features/deals/presentation/screens/deals_page.dart';
+import 'package:cartmates/src/features/cart/presentation/screens/cart_page.dart';
+import 'package:cartmates/src/features/create/presentation/screens/create_page.dart';
+import 'package:cartmates/src/features/campaigns/presentation/screens/campaigns_page.dart';
+import 'package:cartmates/src/features/profile/presentation/screens/profile_page.dart';
+import 'package:cartmates/src/routing/app_routes.dart';
+import 'package:cartmates/src/routing/global_navigator.dart';
+import 'package:cartmates/src/shared/widgets/scaffold_with_nav_bar.dart';
+import 'package:go_router/go_router.dart';
 
 final GoRouter appRouter = GoRouter(
   navigatorKey: rootNavigatorKey,
-  initialLocation: AppRoutes.onboarding,
+  initialLocation: AppRoutes.signup,
   routes: <RouteBase>[
     GoRoute(
       path: AppRoutes.onboarding,
@@ -35,9 +37,9 @@ final GoRouter appRouter = GoRouter(
       builder: (context, state) => const ForgotPasswordScreen(),
     ),
     GoRoute(
-      path: AppRoutes.home,
+      path: AppRoutes.deals,
       name: 'home',
-      builder: (context, state) => const HomePage(),
+      builder: (context, state) => const DealsPage(),
     ),
   ],
 );

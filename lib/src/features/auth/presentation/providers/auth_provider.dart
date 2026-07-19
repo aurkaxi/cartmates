@@ -40,7 +40,7 @@ class AuthController extends StateNotifier<bool> {
       },
       (user) {
         if (rootContext?.mounted ?? false) {
-          rootContext!.go(AppRoutes.home);
+          rootContext!.go(AppRoutes.deals);
         }
       },
     );
@@ -54,8 +54,8 @@ class AuthController extends StateNotifier<bool> {
       required String password}) async {
     state = true;
 
-    final result =
-        await _repository.signUp(name: name,reg: reg, email: email, password: password);
+    final result = await _repository.signUp(
+        name: name, reg: reg, email: email, password: password);
 
     state = false;
     result.fold(
@@ -66,7 +66,7 @@ class AuthController extends StateNotifier<bool> {
       },
       (user) {
         if (rootContext?.mounted ?? false) {
-          rootContext!.go(AppRoutes.home);
+          rootContext!.go(AppRoutes.deals);
         }
       },
     );

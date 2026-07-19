@@ -145,7 +145,7 @@ class _ActionButtons extends StatelessWidget {
         SizedBox(height: AppSpacing.sm.h),
         AppButton(
           label: 'Continue as Guest',
-          onPressed: () => context.go(AppRoutes.home),
+          onPressed: () => context.go(AppRoutes.deals),
           variant: ButtonVariant.ghost,
           height: ButtonSize.large,
           isFullWidth: true,

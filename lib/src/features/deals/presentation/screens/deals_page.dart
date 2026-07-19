@@ -2,8 +2,8 @@ import 'package:cartmates/src/features/auth/presentation/providers/session_provi
 import 'package:cartmates/src/imports/core_imports.dart';
 import 'package:cartmates/src/imports/packages_imports.dart';
 
-class HomePage extends ConsumerWidget {
-  const HomePage({super.key});
+class DealsPage extends ConsumerWidget {
+  const DealsPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -17,7 +17,7 @@ class HomePage extends ConsumerWidget {
     return Scaffold(
       backgroundColor: colorScheme.surface,
       appBar: const AppTopBar(
-        title: 'Home',
+        title: 'Deals',
       ),
       body: SafeArea(
         child: Padding(
@@ -33,7 +33,7 @@ class HomePage extends ConsumerWidget {
               ),
               SizedBox(height: AppSpacing.lg.h),
               Text(
-                user?.name ?? user?.email ?? ('Welcome Home!'),
+                user?.name ?? user?.email ?? ('Welcome to Deals!'),
                 textAlign: TextAlign.center,
                 style: textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.w900,
