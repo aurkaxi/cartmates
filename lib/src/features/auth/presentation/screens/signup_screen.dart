@@ -1,7 +1,6 @@
+import 'package:cartmates/src/features/auth/presentation/providers/auth_provider.dart';
 import 'package:cartmates/src/imports/core_imports.dart';
 import 'package:cartmates/src/imports/packages_imports.dart';
-
-import 'package:cartmates/src/features/auth/presentation/providers/auth_provider.dart';
 
 class SignupScreen extends ConsumerStatefulWidget {
   const SignupScreen({super.key});
@@ -13,6 +12,7 @@ class SignupScreen extends ConsumerStatefulWidget {
 class _SignupScreenState extends ConsumerState<SignupScreen> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
+  final _regController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
@@ -22,6 +22,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
   @override
   void dispose() {
     _nameController.dispose();
+    _regController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
@@ -37,27 +38,30 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
 
     Future<void> handleSignup() async {
       if (!(_formKey.currentState?.validate() ?? false)) return;
-      
 
       ref.read(authControllerProvider.notifier).signUp(
-        context: context, 
-        name: _nameController.text,
-        email: _emailController.text, 
-        password: _passwordController.text,
-      );
+            context: context,
+            name: _nameController.text,
+            reg: _regController.text,
+            email: _emailController.text,
+            password: _passwordController.text,
+          );
     }
 
     return _SignupView(
       formKey: _formKey,
       nameController: _nameController,
+      regController: _regController,
       emailController: _emailController,
       passwordController: _passwordController,
       confirmPasswordController: _confirmPasswordController,
       obscurePassword: _obscurePassword,
       obscureConfirmPassword: _obscureConfirmPassword,
       isLoading: isLoading,
-      onToggleObscure: () => setState(() => _obscurePassword = !_obscurePassword),
-      onToggleConfirmObscure: () => setState(() => _obscureConfirmPassword = !_obscureConfirmPassword),
+      onToggleObscure: () =>
+          setState(() => _obscurePassword = !_obscurePassword),
+      onToggleConfirmObscure: () =>
+          setState(() => _obscureConfirmPassword = !_obscureConfirmPassword),
       onSignup: handleSignup,
       cs: cs,
       tt: tt,
@@ -69,6 +73,7 @@ class _SignupView extends StatelessWidget {
   const _SignupView({
     required this.formKey,
     required this.nameController,
+    required this.regController,
     required this.emailController,
     required this.passwordController,
     required this.confirmPasswordController,
@@ -84,6 +89,7 @@ class _SignupView extends StatelessWidget {
 
   final GlobalKey<FormState> formKey;
   final TextEditingController nameController;
+  final TextEditingController regController;
   final TextEditingController emailController;
   final TextEditingController passwordController;
   final TextEditingController confirmPasswordController;
@@ -106,10 +112,10 @@ class _SignupView extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: AppSpacing.xl.h),
                 Text(
                   'Create Account',
-                  style: tt.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
+                  style:
+                      tt.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: AppSpacing.sm.h),
                 Text(
@@ -130,6 +136,19 @@ class _SignupView extends StatelessWidget {
                         validator: (v) {
                           if (AppUtils.isBlank(v)) {
                             return 'Name is required';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: AppSpacing.md.h),
+                      AppTextField(
+                        controller: regController,
+                        enabled: !isLoading,
+                        label: 'Registration No.',
+                        prefixIcon: const Icon(Icons.numbers),
+                        validator: (v) {
+                          if (AppUtils.isBlank(v)) {
+                            return 'Registration is required';
                           }
                           return null;
                         },
@@ -158,10 +177,12 @@ class _SignupView extends StatelessWidget {
                         obscureText: obscurePassword,
                         prefixIcon: const Icon(Icons.lock_outline),
                         suffixIcon: IconButton(
-                          icon: Icon(obscurePassword ? Icons.visibility_off : Icons.visibility),
+                          icon: Icon(obscurePassword
+                              ? Icons.visibility_off
+                              : Icons.visibility),
                           onPressed: onToggleObscure,
                         ),
-                         validator: (v) {
+                        validator: (v) {
                           if (AppUtils.isBlank(v)) {
                             return 'Password is required';
                           }
@@ -179,10 +200,12 @@ class _SignupView extends StatelessWidget {
                         obscureText: obscureConfirmPassword,
                         prefixIcon: const Icon(Icons.lock_outline),
                         suffixIcon: IconButton(
-                          icon: Icon(obscureConfirmPassword ? Icons.visibility_off : Icons.visibility),
+                          icon: Icon(obscureConfirmPassword
+                              ? Icons.visibility_off
+                              : Icons.visibility),
                           onPressed: onToggleConfirmObscure,
                         ),
-                         validator: (v) {
+                        validator: (v) {
                           if (AppUtils.isBlank(v)) {
                             return 'Confirm password is required';
                           }
@@ -198,12 +221,12 @@ class _SignupView extends StatelessWidget {
                         isLoading: isLoading,
                         onPressed: isLoading ? null : onSignup,
                         width: ButtonSize.large,
-                        isFullWidth: false,
+                        isFullWidth: true,
                       ),
                     ],
                   ),
                 ),
-                SizedBox(height: AppSpacing.xxxl.h),
+                SizedBox(height: AppSpacing.md.h),
                 InkWell(
                   onTap: () {
                     context.push(AppRoutes.login);
@@ -211,7 +234,8 @@ class _SignupView extends StatelessWidget {
                   child: RichText(
                     text: TextSpan(
                       text: 'Already have an account? ',
-                      style: tt.bodyMedium?.copyWith(color: cs.onSurfaceVariant),
+                      style:
+                          tt.bodyMedium?.copyWith(color: cs.onSurfaceVariant),
                       children: [
                         TextSpan(
                           text: 'Log In',
@@ -224,7 +248,6 @@ class _SignupView extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: AppSpacing.xl.h),
               ],
             ),
           ),

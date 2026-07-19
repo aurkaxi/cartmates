@@ -33,12 +33,14 @@ class AuthService {
 
   FutureEither<Map<String, dynamic>?> signUp({
     required String name,
+    required String reg,
     required String email,
     required String password,
   }) async {
     return runTask(() async {
       final response = await _dio.post<Map<String, dynamic>>('/auth/signup', data: {
         'name': name,
+        'reg': reg,
         'email': email,
         'password': password,
       });

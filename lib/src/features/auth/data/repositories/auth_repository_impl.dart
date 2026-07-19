@@ -46,11 +46,13 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   FutureEither<AppUser> signUp({
     required String name, 
+    required String reg,
     required String email, 
     required String password,
   }) async {
     final result = await _authService.signUp(
       name: name,
+      reg:reg,
       email: email,
       password: password,
     );

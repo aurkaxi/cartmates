@@ -14,6 +14,7 @@ abstract class AuthRepository {
   /// Sign up with email, password, and optional name
   FutureEither<AppUser> signUp({
     required String name,
+    required String reg,
     required String email,
     required String password,
   });
