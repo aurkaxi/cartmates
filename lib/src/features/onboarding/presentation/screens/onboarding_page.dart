@@ -8,48 +8,6 @@ class OnboardingPage extends StatefulWidget {
 }
 
 class _OnboardingPageState extends State<OnboardingPage> {
-  late final PageController _pageController;
-  int _currentIndex = 0;
-
-  late final List<Map<String, dynamic>> _onboardingData;
-
-  @override
-  void initState() {
-    super.initState();
-    _pageController = PageController();
-    _onboardingData = [
-      {
-        'title': 'Your Journey,\nPerfectly Planned',
-        'subtitle':
-            'Effortlessly create and organize your\ndream trips. Start exploring now!',
-        'pageWidget': const FlutterLogo(size: 200),
-      },
-      {
-        'title': 'Discover\nFriends Nearby',
-        'subtitle':
-            'See where your friends are traveling and\nexplore the world together.',
-        'pageWidget': const FlutterLogo(size: 200),
-      },
-      {
-        'title': 'Stay Updated\nwith Top Places',
-        'subtitle':
-            'Find trending destinations and must-see attractions,\nall tailored to enhance your travel plans.',
-        'pageWidget': const FlutterLogo(size: 200),
-      },
-    ];
-  }
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
-
-  void _onGetStarted() {
-    // Navigate back or to home. For template purpose:
-    context.go(AppRoutes.login);
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
@@ -60,11 +18,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
       theme: theme,
       colorScheme: colorScheme,
       textTheme: textTheme,
-      pageController: _pageController,
-      currentIndex: _currentIndex,
-      onboardingData: _onboardingData,
-      onPageChanged: (index) => setState(() => _currentIndex = index),
-      onGetStarted: _onGetStarted,
     );
   }
 }
@@ -74,122 +27,208 @@ class _OnboardingView extends StatelessWidget {
     required this.theme,
     required this.colorScheme,
     required this.textTheme,
-    required this.pageController,
-    required this.currentIndex,
-    required this.onboardingData,
-    required this.onPageChanged,
-    required this.onGetStarted,
   });
 
   final ThemeData theme;
   final ColorScheme colorScheme;
   final TextTheme textTheme;
-  final PageController pageController;
-  final int currentIndex;
-  final List<Map<String, dynamic>> onboardingData;
-  final ValueChanged<int> onPageChanged;
-  final VoidCallback onGetStarted;
 
   @override
   Widget build(BuildContext context) {
+    final cs = colorScheme;
+    final tt = textTheme;
+
     return Scaffold(
-      backgroundColor: colorScheme.surface,
+      backgroundColor: cs.surface,
       body: SafeArea(
-        child: Column(
-          children: [
-            // Top branding
-            Padding(
-              padding: EdgeInsets.only(
-                top: AppSpacing.lg.h,
-                bottom: AppSpacing.md.h,
-              ),
-              child: Text(
-                'FlutterInit.',
-                style: textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.w900,
-                  color: colorScheme.onSurface,
-                  fontSize: 22.sp,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg.w),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: IntrinsicHeight(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _BrandingSection(cs: cs, tt: tt),
+                      SizedBox(height: AppSpacing.xl.h),
+                      _ValueSection(cs: cs, tt: tt),
+                      SizedBox(height: AppSpacing.xxxl.h),
+                      _ActionButtons(cs: cs, tt: tt),
+                    ],
+                  ),
                 ),
               ),
-            ),
-
-            // PageView
-            Expanded(
-              child: PageView.builder(
-                controller: pageController,
-                itemCount: onboardingData.length,
-                onPageChanged: onPageChanged,
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      // Dynamic Illustration Section
-                      Expanded(
-                        child: Center(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: AppSpacing.lg.w,
-                            ),
-                            child: onboardingData[index]['pageWidget'] as Widget,
-                          ),
-                        ),
-                      ),
-                      
-                      // Text Section
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: AppSpacing.xl.w,
-                        ),
-                        child: Column(
-                          children: [
-                            Text(
-                              onboardingData[index]['title'] as String,
-                              textAlign: TextAlign.center,
-                              style: textTheme.headlineMedium?.copyWith(
-                                fontWeight: FontWeight.w700,
-                                color: colorScheme.onSurface,
-                                height: 1.2,
-                                fontSize: 24.sp,
-                              ),
-                            ),
-                            SizedBox(height: AppSpacing.md.h),
-                            Text(
-                              onboardingData[index]['subtitle'] as String,
-                              textAlign: TextAlign.center,
-                              style: textTheme.bodyMedium?.copyWith(
-                                color: colorScheme.onSurfaceVariant,
-                                height: 1.5,
-                                fontSize: 14.sp,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 40.h),
-                    ],
-                  );
-                },
-              ),
-            ),
-
-            // Bottom Section: Dots and Button
-            Padding(
-              padding: EdgeInsets.all(AppSpacing.xl.w),
-              child: Column(
-                children: [
-                   SizedBox(height: AppSpacing.xl),
-                  // Get Started Button
-                  AppButton(
-                    label: 'Get Started',
-                    onPressed: onGetStarted,
-                    variant: ButtonVariant.primary,
-                    width: ButtonSize.medium,
-                  ),
-                  SizedBox(height: AppSpacing.md),
-                ],
-              ),
-            ),
-          ],
+            );
+          },
         ),
+      ),
+    );
+  }
+}
+
+class _BrandingSection extends StatelessWidget {
+  const _BrandingSection({
+    required this.cs,
+    required this.tt,
+  });
+
+  final ColorScheme cs;
+  final TextTheme tt;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          width: 96.w,
+          height: 96.w,
+          decoration: BoxDecoration(
+            color: cs.surfaceContainerLow,
+            border: Border.all(color: cs.outlineVariant),
+            borderRadius: BorderRadius.circular(16.r),
+          ),
+          child: Center(
+            child: SvgPicture.asset(
+              'assets/icons/cartmates.svg',
+              width: 64.w,
+              height: 64.w,
+              colorFilter: ColorFilter.mode(cs.primary, BlendMode.srcIn),
+            ),
+          ),
+        ),
+        SizedBox(height: AppSpacing.md.h),
+        Text(
+          'cartmates',
+          style: tt.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
+        ),
+        SizedBox(height: AppSpacing.sm.h),
+        Text(
+          'Buy together, save together.',
+          textAlign: TextAlign.center,
+          style: tt.bodyMedium?.copyWith(color: cs.onSurfaceVariant),
+        ),
+      ],
+    );
+  }
+}
+
+class _ActionButtons extends StatelessWidget {
+  const _ActionButtons({
+    required this.cs,
+    required this.tt,
+  });
+
+  final ColorScheme cs;
+  final TextTheme tt;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        AppButton(
+          label: 'Register',
+          onPressed: () => context.push(AppRoutes.signup),
+          variant: ButtonVariant.primary,
+          height: ButtonSize.large,
+          isFullWidth: true,
+        ),
+        SizedBox(height: AppSpacing.sm.h),
+        AppButton(
+          label: 'Log In',
+          onPressed: () => context.push(AppRoutes.login),
+          variant: ButtonVariant.secondary,
+          height: ButtonSize.large,
+          isFullWidth: true,
+        ),
+        SizedBox(height: AppSpacing.sm.h),
+        AppButton(
+          label: 'Continue as Guest',
+          onPressed: () => context.go(AppRoutes.home),
+          variant: ButtonVariant.ghost,
+          height: ButtonSize.large,
+          isFullWidth: true,
+        ),
+      ],
+    );
+  }
+}
+
+class _ValueSection extends StatelessWidget {
+  const _ValueSection({
+    required this.cs,
+    required this.tt,
+  });
+
+  final ColorScheme cs;
+  final TextTheme tt;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        _ValueCard(
+          title: 'Save on Product Cost',
+          subtitle: 'Team up to unlock bulk tier discounts.',
+          cs: cs,
+          tt: tt,
+        ),
+        SizedBox(height: AppSpacing.sm.h),
+        _ValueCard(
+          title: 'Save on Delivery',
+          subtitle: 'Split shipping fees with your campus community.',
+          cs: cs,
+          tt: tt,
+        )
+      ],
+    );
+  }
+}
+
+class _ValueCard extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final ColorScheme cs;
+  final TextTheme tt;
+
+  const _ValueCard({
+    required this.title,
+    required this.subtitle,
+    required this.cs,
+    required this.tt,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(AppSpacing.md.r),
+      decoration: BoxDecoration(
+        color: cs.surfaceContainerLowest,
+        border: Border.all(color: cs.outlineVariant),
+        borderRadius: BorderRadius.circular(16.r),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            title,
+            textAlign: TextAlign.center,
+            style: tt.titleMedium?.copyWith(
+              fontWeight: FontWeight.w600,
+              color: cs.onSurface,
+            ),
+          ),
+          SizedBox(height: 4.h),
+          Text(
+            subtitle,
+            textAlign: TextAlign.center,
+            style: tt.bodyMedium?.copyWith(
+              color: cs.onSurfaceVariant,
+            ),
+          ),
+        ],
       ),
     );
   }
