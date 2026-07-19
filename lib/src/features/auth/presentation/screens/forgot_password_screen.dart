@@ -1,13 +1,13 @@
+import 'package:cartmates/src/features/auth/presentation/providers/auth_provider.dart';
 import 'package:cartmates/src/imports/core_imports.dart';
 import 'package:cartmates/src/imports/packages_imports.dart';
-
-import 'package:cartmates/src/features/auth/presentation/providers/auth_provider.dart';
 
 class ForgotPasswordScreen extends ConsumerStatefulWidget {
   const ForgotPasswordScreen({super.key});
 
   @override
-  ConsumerState<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
+  ConsumerState<ForgotPasswordScreen> createState() =>
+      _ForgotPasswordScreenState();
 }
 
 class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
@@ -29,12 +29,11 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
 
     Future<void> handleForgotPassword() async {
       if (!(_formKey.currentState?.validate() ?? false)) return;
-      
 
       ref.read(authControllerProvider.notifier).forgotPassword(
-        context: context, 
-        email: _emailController.text,
-      );
+            context: context,
+            email: _emailController.text,
+          );
     }
 
     return _ForgotPasswordView(
@@ -76,10 +75,10 @@ class _ForgotPasswordView extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: AppSpacing.xl.h),
                 Text(
                   'Reset Password',
-                  style: tt.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
+                  style:
+                      tt.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: AppSpacing.sm.h),
                 Text(
@@ -114,7 +113,7 @@ class _ForgotPasswordView extends StatelessWidget {
                         isLoading: isLoading,
                         onPressed: isLoading ? null : onForgotPassword,
                         width: ButtonSize.large,
-                        isFullWidth: false,
+                        isFullWidth: true,
                       ),
                     ],
                   ),
@@ -130,7 +129,6 @@ class _ForgotPasswordView extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: AppSpacing.xl.h),
               ],
             ),
           ),
