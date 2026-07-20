@@ -14,7 +14,7 @@ import 'package:go_router/go_router.dart';
 
 final GoRouter appRouter = GoRouter(
   navigatorKey: rootNavigatorKey,
-  initialLocation: AppRoutes.deals,
+  initialLocation: AppRoutes.onboarding,
   routes: <RouteBase>[
     GoRoute(
       path: AppRoutes.onboarding,

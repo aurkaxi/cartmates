@@ -94,7 +94,6 @@ class _BrandingSection extends StatelessWidget {
               'assets/icons/cartmates.svg',
               width: 64.w,
               height: 64.w,
-              colorFilter: ColorFilter.mode(cs.primary, BlendMode.srcIn),
             ),
           ),
         ),
