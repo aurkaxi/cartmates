@@ -1,4 +1,5 @@
 export 'auth_service.dart';
+export 'deals_service.dart';
 export 'internet_connection_service.dart';
 export 'dio_service.dart';
 export 'storage_service.dart';
@@ -10,4 +11,3 @@ export 'permission_service.dart';
 export 'url_launcher_service.dart';
 export 'media_service.dart';
 export 'version_update_service.dart';
-
