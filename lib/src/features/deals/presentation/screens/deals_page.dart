@@ -170,6 +170,9 @@ class _ClosingSoonSection extends StatelessWidget {
                 return SameProductDealCard(
                   deal: deal,
                   variant: DealCardVariant.closingSoon,
+                  onTap: () => context.push(
+                    AppRoutes.sameProductDealDetailPath(deal.id),
+                  ),
                 );
               } else if (deal is SameVendorDeal) {
                 return SameVendorDealCard(
@@ -210,9 +213,13 @@ class _MaxSavingSection extends StatelessWidget {
             itemCount: maxSavingDeals.length,
             separatorBuilder: (_, __) => SizedBox(width: 16.r),
             itemBuilder: (context, index) {
+              final deal = maxSavingDeals[index];
               return SameProductDealCard(
-                deal: maxSavingDeals[index],
+                deal: deal,
                 variant: DealCardVariant.maximumSaving,
+                onTap: () => context.push(
+                  AppRoutes.sameProductDealDetailPath(deal.id),
+                ),
               );
             },
           ),
@@ -252,6 +259,9 @@ class _SuggestedSection extends StatelessWidget {
                 return SameProductDealCard(
                   deal: deal,
                   variant: DealCardVariant.suggested,
+                  onTap: () => context.push(
+                    AppRoutes.sameProductDealDetailPath(deal.id),
+                  ),
                 );
               } else if (deal is SameVendorDeal) {
                 return SameVendorDealCard(

@@ -15,4 +15,9 @@ abstract final class AppRoutes {
   static const String login = '/login';
   static const String signup = '/signup';
   static const String forgotPassword = '/forgot-password';
+  static const String _sameProductDealBase = '/same-product-deal';
+  static const String sameProductDealDetail = '$_sameProductDealBase/:id';
+
+  static String sameProductDealDetailPath(String id) =>
+      '$_sameProductDealBase/$id';
 }

@@ -200,6 +200,88 @@ Search deals by name.
 
 ---
 
+## GET /deals/same-product/:id
+
+Returns full detail for a single same product deal.
+
+**Path params:**
+- `id` (required) — deal ID
+
+**Response:**
+```json
+{
+  "deal": {
+    "id": "1",
+    "name": "Sony WH-1000XM5 Noise Canceling Headphones - Bulk Order",
+    "image_url": "https://...",
+    "current_price": 249.00,
+    "original_price": 399.00,
+    "qty_current": 15,
+    "qty_goal": 20,
+    "confirmed_qty": 10,
+    "hold_qty": 5,
+    "time_remaining": 172800,
+    "savings_percentage": 37.0,
+    "description": "Bulk order for Sony WH-1000XM5 headphones...",
+    "source": "https://www.amazon.com/dp/B09XS7JWHH",
+    "category_tags": ["TECH & AUDIO", "SAME PRODUCT"],
+    "host": {
+      "name": "Alex Chen",
+      "avatar_url": "https://...",
+      "reputation_points": 1247,
+      "success_count": 12,
+      "fail_count": 1
+    },
+    "deadline": "2026-10-27T17:00:00Z",
+    "pickup_location": "Student Union",
+    "pickup_detail": "Room 204",
+    "pricing_tiers": [
+      { "min_qty": 1, "price": 349.00, "is_unlocked": true, "is_active": false },
+      { "min_qty": 10, "price": 299.00, "is_unlocked": false, "is_active": true },
+      { "min_qty": 20, "price": 249.00, "is_unlocked": false, "is_active": false }
+    ],
+    "updates": [
+      {
+        "message": "Almost hit the cap! Make sure payments are uploaded.",
+        "timestamp": "2026-07-21T10:00:00Z"
+      }
+    ],
+    "comments": [
+      {
+        "id": "c1",
+        "author_name": "@alex_m",
+        "author_avatar_url": "https://...",
+        "text": "Hey, is it possible to pickup from north campus?",
+        "timestamp": "2026-07-21T08:00:00Z",
+        "is_host": false,
+        "replies": [
+          {
+            "id": "c1r1",
+            "author_name": "@alex_chen",
+            "author_avatar_url": "https://...",
+            "text": "I can meet halfway if you are free at noon.",
+            "timestamp": "2026-07-21T09:00:00Z",
+            "is_host": true,
+            "replies": []
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+**Notes:**
+- `source` is required — URL or text where host sources the bulk deal
+- `deadline` is ISO 8601 datetime
+- `pricing_tiers` sorted ascending by `min_qty`
+- `updates` sorted descending by `timestamp` (newest first)
+- `comments` sorted ascending by `timestamp` (oldest first)
+- `replies` are flat children (depth=1), sorted ascending by `timestamp`
+- 404 if deal not found or deal type is not product
+
+---
+
 ## Common error response
 
 ```json
