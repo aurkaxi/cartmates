@@ -846,10 +846,12 @@ class _SameProductPricingTierTimeline extends StatelessWidget {
   Widget build(BuildContext context) {
     final cs = context.theme.colorScheme;
 
+    final sorted = tiers.toList()..sort((a, b) => b.minQty.compareTo(a.minQty));
+
     return Column(
-      children: List.generate(tiers.length * 2 - 1, (index) {
+      children: List.generate(sorted.length * 2 - 1, (index) {
         if (index.isOdd) {
-          final prevTier = tiers[(index - 1) ~/ 2];
+          final prevTier = sorted[(index - 1) ~/ 2];
           final isActiveOrUnlocked = prevTier.isActive || prevTier.isUnlocked;
           return Container(
             width: 2,
@@ -859,7 +861,7 @@ class _SameProductPricingTierTimeline extends StatelessWidget {
           );
         }
         final tierIndex = index ~/ 2;
-        final tier = tiers[tierIndex];
+        final tier = sorted[tierIndex];
         return _SameProductPricingTierCard(tier: tier);
       }),
     );
@@ -1543,8 +1545,8 @@ SameProductDealDetail? _getMockSameProductDetail(String dealId) {
     pickupLocation: 'Student Union',
     pickupDetail: 'Room 204',
     pricingTiers: const [
-      SameProductPricingTier(minQty: 1, price: 349, isUnlocked: true),
       SameProductPricingTier(minQty: 10, price: 299, isActive: true),
+      SameProductPricingTier(minQty: 1, price: 349, isUnlocked: true),
       SameProductPricingTier(minQty: 20, price: 249),
     ],
     updates: [
