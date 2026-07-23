@@ -20,4 +20,10 @@ abstract final class AppRoutes {
 
   static String sameProductDealDetailPath(String id) =>
       '$_sameProductDealBase/$id';
+
+  static const String _joinSameProductDealBase = '/join-deal';
+  static const String joinSameProductDeal = '$_joinSameProductDealBase/:dealId';
+
+  static String joinSameProductDealPath(String dealId) =>
+      '$_joinSameProductDealBase/$dealId';
 }

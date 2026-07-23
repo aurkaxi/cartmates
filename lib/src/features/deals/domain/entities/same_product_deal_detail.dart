@@ -8,6 +8,8 @@ class SameProductDealHostInfo extends Equatable {
   final int reputationPoints;
   final int successCount;
   final int failCount;
+  final String? bkashNumber;
+  final String? contactNumber;
 
   const SameProductDealHostInfo({
     required this.name,
@@ -15,6 +17,8 @@ class SameProductDealHostInfo extends Equatable {
     required this.reputationPoints,
     required this.successCount,
     required this.failCount,
+    this.bkashNumber,
+    this.contactNumber,
   });
 
   @override
@@ -24,6 +28,8 @@ class SameProductDealHostInfo extends Equatable {
         reputationPoints,
         successCount,
         failCount,
+        bkashNumber,
+        contactNumber,
       ];
 }
 

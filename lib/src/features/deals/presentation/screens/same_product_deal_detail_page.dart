@@ -1481,7 +1481,9 @@ class _SameProductBottomBanner extends StatelessWidget {
                     SizedBox(width: AppSpacing.sm.w),
                     GestureDetector(
                       onTap: () {
-                        // TODO: Join deal flow
+                        context.push(
+                          AppRoutes.joinSameProductDealPath(deal.id),
+                        );
                       },
                       child: Container(
                         height: 48.r,
@@ -1494,7 +1496,7 @@ class _SameProductBottomBanner extends StatelessWidget {
                         ),
                         child: Center(
                           child: Text(
-                            'Join Campaign',
+                            'Join Deal',
                             style: tt.labelLarge?.copyWith(
                               color: cs.onPrimary,
                             ),
