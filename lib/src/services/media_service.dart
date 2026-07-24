@@ -27,7 +27,7 @@ class MediaService {
         }
       } else {
         if (Platform.isAndroid || Platform.isIOS) {
-          final status = await Permission.photos.request();
+          final status = await Permission.storage.request();
           if (!status.isGranted && !status.isLimited) {
             throw Exception('Photos permission denied');
           }
@@ -53,7 +53,7 @@ class MediaService {
   }) async {
     return runTask(() async {
       if (Platform.isAndroid || Platform.isIOS) {
-        final status = await Permission.photos.request();
+        final status = await Permission.storage.request();
         if (!status.isGranted && !status.isLimited) {
           throw Exception('Photos permission denied');
         }
@@ -82,7 +82,7 @@ class MediaService {
         }
       } else {
         if (Platform.isAndroid || Platform.isIOS) {
-          final status = await Permission.photos.request();
+          final status = await Permission.storage.request();
           if (!status.isGranted && !status.isLimited) {
             throw Exception('Photos permission denied');
           }
