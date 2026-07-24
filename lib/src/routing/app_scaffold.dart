@@ -4,20 +4,24 @@ import 'package:cartmates/src/routing/app_nav_bar.dart';
 class AppScaffold extends StatelessWidget {
   const AppScaffold({
     super.key,
-    required this.child,
+    required this.navigationShell,
   });
 
-  final Widget child;
+  final StatefulNavigationShell navigationShell;
 
   @override
   Widget build(BuildContext context) {
     final location = GoRouterState.of(context).uri.toString();
+    final hideBottomNav = location.contains('/detail');
 
     return Scaffold(
-      body: child,
-      bottomNavigationBar: AppNavBar(
-        currentRoute: location,
-      ),
+      body: navigationShell,
+      bottomNavigationBar: hideBottomNav
+          ? null
+          : AppNavBar(
+              navigationShell: navigationShell,
+              currentRoute: location,
+            ),
     );
   }
 }

@@ -3,9 +3,11 @@ import 'package:cartmates/src/imports/imports.dart';
 class AppNavBar extends StatelessWidget {
   const AppNavBar({
     super.key,
+    required this.navigationShell,
     required this.currentRoute,
   });
 
+  final StatefulNavigationShell navigationShell;
   final String currentRoute;
 
   static const List<_NavTab> _tabs = [
@@ -41,15 +43,6 @@ class AppNavBar extends StatelessWidget {
     ),
   ];
 
-  int get _currentIndex {
-    for (var i = 0; i < _tabs.length; i++) {
-      if (currentRoute.startsWith(_tabs[i].route)) {
-        return i;
-      }
-    }
-    return 0;
-  }
-
   @override
   Widget build(BuildContext context) {
     final cs = context.theme.colorScheme;
@@ -57,8 +50,13 @@ class AppNavBar extends StatelessWidget {
     return SafeArea(
       top: false,
       child: NavigationBar(
-        selectedIndex: _currentIndex,
-        onDestinationSelected: (index) => context.go(_tabs[index].route),
+        selectedIndex: navigationShell.currentIndex,
+        onDestinationSelected: (index) {
+          navigationShell.goBranch(
+            index,
+            initialLocation: true,
+          );
+        },
         height: kBottomNavigationBarHeight,
         indicatorColor: cs.primaryContainer,
         labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,

@@ -38,49 +38,75 @@ final GoRouter appRouter = GoRouter(
       name: 'forgotPassword',
       builder: (context, state) => const ForgotPasswordScreen(),
     ),
-    ShellRoute(
-      builder: (context, state, child) => AppScaffold(child: child),
-      routes: [
-        GoRoute(
-          path: AppRoutes.create,
-          name: 'create',
-          builder: (context, state) => const CreatePage(),
+    StatefulShellRoute.indexedStack(
+      builder: (context, state, navigationShell) => AppScaffold(
+        navigationShell: navigationShell,
+      ),
+      branches: [
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: AppRoutes.create,
+              name: 'create',
+              builder: (context, state) => const CreatePage(),
+            ),
+          ],
         ),
-        GoRoute(
-          path: AppRoutes.cart,
-          name: 'cart',
-          builder: (context, state) => const CartPage(),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: AppRoutes.cart,
+              name: 'cart',
+              builder: (context, state) => const CartPage(),
+            ),
+          ],
         ),
-        GoRoute(
-          path: AppRoutes.deals,
-          name: 'deals',
-          builder: (context, state) => const DealsPage(),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: AppRoutes.deals,
+              name: 'deals',
+              builder: (context, state) => const DealsPage(),
+              routes: [
+                GoRoute(
+                  path: 'detail/:id',
+                  name: 'sameProductDealDetail',
+                  builder: (context, state) => SameProductDealDetailPage(
+                    dealId: state.pathParameters['id']!,
+                  ),
+                  routes: [
+                    GoRoute(
+                      path: 'join',
+                      name: 'joinSameProductDeal',
+                      builder: (context, state) => JoinSameProductDealPage(
+                        dealId: state.pathParameters['id']!,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
         ),
-        GoRoute(
-          path: AppRoutes.campaigns,
-          name: 'campaigns',
-          builder: (context, state) => const CampaignsPage(),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: AppRoutes.campaigns,
+              name: 'campaigns',
+              builder: (context, state) => const CampaignsPage(),
+            ),
+          ],
         ),
-        GoRoute(
-          path: AppRoutes.profile,
-          name: 'profile',
-          builder: (context, state) => const ProfilePage(),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: AppRoutes.profile,
+              name: 'profile',
+              builder: (context, state) => const ProfilePage(),
+            ),
+          ],
         ),
       ],
-    ),
-    GoRoute(
-      path: AppRoutes.sameProductDealDetail,
-      name: 'sameProductDealDetail',
-      builder: (context, state) => SameProductDealDetailPage(
-        dealId: state.pathParameters['id']!,
-      ),
-    ),
-    GoRoute(
-      path: AppRoutes.joinSameProductDeal,
-      name: 'joinSameProductDeal',
-      builder: (context, state) => JoinSameProductDealPage(
-        dealId: state.pathParameters['dealId']!,
-      ),
     ),
   ],
 );

@@ -15,15 +15,12 @@ abstract final class AppRoutes {
   static const String login = '/login';
   static const String signup = '/signup';
   static const String forgotPassword = '/forgot-password';
-  static const String _sameProductDealBase = '/same-product-deal';
-  static const String sameProductDealDetail = '$_sameProductDealBase/:id';
+  static const String sameProductDealDetail = '$deals/detail/:id';
 
-  static String sameProductDealDetailPath(String id) =>
-      '$_sameProductDealBase/$id';
+  static String sameProductDealDetailPath(String id) => '$deals/detail/$id';
 
-  static const String _joinSameProductDealBase = '/join-deal';
-  static const String joinSameProductDeal = '$_joinSameProductDealBase/:dealId';
+  static const String joinSameProductDeal = '$deals/detail/:id/join';
 
   static String joinSameProductDealPath(String dealId) =>
-      '$_joinSameProductDealBase/$dealId';
+      '$deals/detail/$dealId/join';
 }
