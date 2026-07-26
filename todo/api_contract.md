@@ -282,6 +282,80 @@ Returns full detail for a single same product deal.
 
 ---
 
+## GET /deals/saved
+
+Returns deals saved/bookmarked by the authenticated user.
+
+**Query params:** none
+
+**Response:**
+```json
+{
+  "deals": [
+    {
+      "type": "product",
+      "id": "1",
+      "name": "Bulk Organic Avocados (Box of 20)",
+      "image_url": "https://...",
+      "current_price": 18.50,
+      "original_price": 35.00,
+      "qty_current": 12,
+      "qty_goal": 15,
+      "confirmed_qty": 10,
+      "hold_qty": 2,
+      "time_remaining": 8100,
+      "savings_percentage": 47.1,
+      "saved_at": "2026-07-25T12:00:00Z"
+    }
+  ]
+}
+```
+
+**Notes:**
+- Returns mixed product + vendor deals
+- `saved_at` is ISO 8601 timestamp of when user saved the deal
+- Sorted descending by `saved_at` (most recently saved first)
+- Returns `{ "deals": [] }` if no saved deals
+
+---
+
+## POST /deals/:id/save
+
+Toggles save state for a deal. If saved → unsaves. If unsaved → saves.
+
+**Path params:**
+- `id` (required) — deal ID
+
+**Response:**
+```json
+{
+  "saved": true,
+  "message": "Deal saved"
+}
+```
+
+**Notes:**
+- `saved: true` means deal is now saved, `saved: false` means deal was unsaved
+- Returns 404 if deal not found
+
+---
+
+## GET /deals/:id/is-saved
+
+Check if a deal is saved by the authenticated user.
+
+**Path params:**
+- `id` (required) — deal ID
+
+**Response:**
+```json
+{
+  "saved": true
+}
+```
+
+---
+
 ## Common error response
 
 ```json
