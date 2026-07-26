@@ -10,6 +10,7 @@ abstract final class AppRoutes {
   static const String campaigns = '/campaigns';
   static const String deals = '/deals';
   static const String cart = '/cart';
+  static const String cartOrder = '/cart/order/:dealId';
   static const String profile = '/profile';
   static const String onboarding = '/onboarding';
   static const String login = '/login';
@@ -23,4 +24,6 @@ abstract final class AppRoutes {
 
   static String joinSameProductDealPath(String dealId) =>
       '$deals/detail/$dealId/join';
+
+  static String cartOrderPath(String dealId) => '/cart/order/$dealId';
 }

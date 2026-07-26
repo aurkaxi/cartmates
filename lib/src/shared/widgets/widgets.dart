@@ -8,4 +8,5 @@ export 'app_loading.dart';
 export 'app_text_field.dart';
 export 'app_top_bar.dart';
 export 'common_image.dart';
+export 'deal_status_chip.dart';
 export 'toast/imports.dart';
