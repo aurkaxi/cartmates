@@ -1,4 +1,5 @@
 import 'package:cartmates/src/imports/imports.dart';
+import 'package:cartmates/src/features/saved/presentation/providers/saved_deals_provider.dart';
 
 import '../../domain/entities/deal.dart';
 import '../../domain/entities/same_product_deal_detail.dart';
@@ -1335,13 +1336,13 @@ class _SameProductCommentCard extends StatelessWidget {
 
 // ── Bottom Banner ───────────────────────────────────────────────────────────
 
-class _SameProductBottomBanner extends StatelessWidget {
+class _SameProductBottomBanner extends ConsumerWidget {
   final SameProductDeal deal;
 
   const _SameProductBottomBanner({required this.deal});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final cs = context.theme.colorScheme;
     final tt = context.theme.textTheme;
 
@@ -1458,26 +1459,7 @@ class _SameProductBottomBanner extends StatelessWidget {
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        // TODO: Save deal — saved listings screen not built yet
-                      },
-                      child: Container(
-                        width: 48.r,
-                        height: 48.r,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: cs.outline),
-                          borderRadius: AppBorders.sm,
-                        ),
-                        child: Center(
-                          child: HugeIcon(
-                            icon: HugeIcons.strokeRoundedBookmark01,
-                            size: 22.r,
-                            color: cs.onSurfaceVariant,
-                          ),
-                        ),
-                      ),
-                    ),
+                    _BookmarkButton(dealId: deal.id),
                     SizedBox(width: AppSpacing.sm.w),
                     GestureDetector(
                       onTap: () {
@@ -1509,6 +1491,47 @@ class _SameProductBottomBanner extends StatelessWidget {
               ],
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _BookmarkButton extends ConsumerWidget {
+  final String dealId;
+
+  const _BookmarkButton({required this.dealId});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cs = context.theme.colorScheme;
+    final savedAsync = ref.watch(dealSavedStateProvider(dealId));
+    final isSaved = savedAsync.value ?? false;
+
+    return GestureDetector(
+      onTap: () async {
+        final repo = ref.read(savedRepositoryProvider);
+        await repo.toggleSave(dealId);
+        ref.invalidate(dealSavedStateProvider(dealId));
+        ref.invalidate(savedDealsProvider);
+      },
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        width: 48.r,
+        height: 48.r,
+        decoration: BoxDecoration(
+          color: isSaved ? cs.primaryContainer : null,
+          border: Border.all(
+            color: isSaved ? cs.primary : cs.outline,
+          ),
+          borderRadius: AppBorders.sm,
+        ),
+        child: Center(
+          child: HugeIcon(
+            icon: HugeIcons.strokeRoundedBookmark01,
+            size: 22.r,
+            color: isSaved ? cs.onPrimaryContainer : cs.onSurfaceVariant,
+          ),
         ),
       ),
     );
