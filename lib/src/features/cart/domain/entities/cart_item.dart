@@ -8,7 +8,8 @@ class CartItem extends Equatable {
   final String imageUrl;
   final double price;
   final int quantity;
-  final DealStatus status;
+  final ParticipantStatus participantStatus;
+  final DealStatus dealStatus;
   final CartTab tab;
   final String? hostName;
   final String? hostAvatarUrl;
@@ -16,6 +17,9 @@ class CartItem extends Equatable {
   final DateTime? estimatedArrival;
   final int? progressCurrent;
   final int? progressGoal;
+  final String? trackingNumber;
+  final String? trackingUrl;
+  final bool received;
 
   const CartItem({
     required this.id,
@@ -24,7 +28,8 @@ class CartItem extends Equatable {
     required this.imageUrl,
     required this.price,
     required this.quantity,
-    required this.status,
+    required this.participantStatus,
+    required this.dealStatus,
     required this.tab,
     this.hostName,
     this.hostAvatarUrl,
@@ -32,6 +37,9 @@ class CartItem extends Equatable {
     this.estimatedArrival,
     this.progressCurrent,
     this.progressGoal,
+    this.trackingNumber,
+    this.trackingUrl,
+    this.received = false,
   });
 
   String get quantityText => 'Qty: $quantity';
@@ -51,7 +59,8 @@ class CartItem extends Equatable {
         imageUrl,
         price,
         quantity,
-        status,
+        participantStatus,
+        dealStatus,
         tab,
         hostName,
         hostAvatarUrl,
@@ -59,5 +68,8 @@ class CartItem extends Equatable {
         estimatedArrival,
         progressCurrent,
         progressGoal,
+        trackingNumber,
+        trackingUrl,
+        received,
       ];
 }

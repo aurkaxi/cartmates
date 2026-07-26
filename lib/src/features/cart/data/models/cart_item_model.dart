@@ -9,7 +9,8 @@ class CartItemModel extends CartItem {
     required super.imageUrl,
     required super.price,
     required super.quantity,
-    required super.status,
+    required super.participantStatus,
+    required super.dealStatus,
     required super.tab,
     super.hostName,
     super.hostAvatarUrl,
@@ -17,6 +18,9 @@ class CartItemModel extends CartItem {
     super.estimatedArrival,
     super.progressCurrent,
     super.progressGoal,
+    super.trackingNumber,
+    super.trackingUrl,
+    super.received,
   });
 
   factory CartItemModel.fromJson(Map<String, dynamic> json) {
@@ -27,7 +31,12 @@ class CartItemModel extends CartItem {
       imageUrl: json['imageUrl'] as String,
       price: (json['price'] as num).toDouble(),
       quantity: json['quantity'] as int,
-      status: DealStatus.fromString(json['status'] as String),
+      participantStatus:
+          ParticipantStatus.fromString(json['participantStatus'] as String),
+      dealStatus: DealStatus.values.firstWhere(
+        (e) => e.name == (json['dealStatus'] as String),
+        orElse: () => DealStatus.recruiting,
+      ),
       tab: CartTab.values.firstWhere(
         (e) => e.name == (json['tab'] as String),
         orElse: () => CartTab.passive,
@@ -42,6 +51,9 @@ class CartItemModel extends CartItem {
           : null,
       progressCurrent: json['progressCurrent'] as int?,
       progressGoal: json['progressGoal'] as int?,
+      trackingNumber: json['trackingNumber'] as String?,
+      trackingUrl: json['trackingUrl'] as String?,
+      received: json['received'] as bool? ?? false,
     );
   }
 
@@ -53,7 +65,8 @@ class CartItemModel extends CartItem {
       'imageUrl': imageUrl,
       'price': price,
       'quantity': quantity,
-      'status': status.name,
+      'participantStatus': participantStatus.name,
+      'dealStatus': dealStatus.name,
       'tab': tab.name,
       'hostName': hostName,
       'hostAvatarUrl': hostAvatarUrl,
@@ -61,6 +74,9 @@ class CartItemModel extends CartItem {
       'estimatedArrival': estimatedArrival?.toIso8601String(),
       'progressCurrent': progressCurrent,
       'progressGoal': progressGoal,
+      'trackingNumber': trackingNumber,
+      'trackingUrl': trackingUrl,
+      'received': received,
     };
   }
 }
