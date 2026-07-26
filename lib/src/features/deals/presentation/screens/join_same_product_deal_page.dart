@@ -67,18 +67,18 @@ class _JoinSameProductDealPageState
 
   void _handleSubmit() {
     if (_paymentMethod == 'bkash' && _paymentProof == null) {
-      showToast(
-        context,
-        message: 'Please upload payment proof',
-        status: 'warning',
-      );
+      // showToast(
+      //   context,
+      //   message: 'Please upload payment proof',
+      //   status: 'warning',
+      // );
       return;
     }
-    showToast(
-      context,
-      message: 'Payment submitted successfully!',
-      status: 'success',
-    );
+    // showToast(
+    //   context,
+    //   message: 'Payment submitted successfully!',
+    //   status: 'success',
+    // );
     context.go(AppRoutes.cart);
   }
 
