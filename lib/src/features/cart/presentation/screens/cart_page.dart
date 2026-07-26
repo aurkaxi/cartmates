@@ -10,7 +10,6 @@ class CartPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: const AppTopBar(title: 'Cart'),
       body: SafeArea(
         child: Column(
           children: [
