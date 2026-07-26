@@ -37,5 +37,5 @@ final filteredCartItemsProvider = Provider<List<CartItem>>((ref) {
   final items = ref.watch(cartItemsProvider).value ?? [];
   final statusFilter = ref.watch(cartStatusFilterProvider);
   if (statusFilter == null) return items;
-  return items.where((item) => item.status == statusFilter).toList();
+  return items.where((item) => item.dealStatus == statusFilter).toList();
 });

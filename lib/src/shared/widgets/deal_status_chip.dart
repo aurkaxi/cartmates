@@ -1,15 +1,19 @@
 import 'package:cartmates/src/features/cart/domain/entities/deal_status.dart';
 import 'package:cartmates/src/imports/imports.dart';
 
+enum StatusType { deal, participant }
+
 class DealStatusChip extends StatelessWidget {
   const DealStatusChip({
     super.key,
     required this.status,
     this.size = ChipSize.medium,
+    this.type = StatusType.deal,
   });
 
-  final DealStatus status;
+  final dynamic status; // DealStatus or ParticipantStatus
   final ChipSize size;
+  final StatusType type;
 
   @override
   Widget build(BuildContext context) {
@@ -55,36 +59,106 @@ class DealStatusChip extends StatelessWidget {
             TextStyle(fontSize: 14, color: _textColor(cs, ac)),
       };
 
-  Color _backgroundColor(ColorScheme cs, AppColorsExtension ac) =>
-      switch (status) {
+  Color _backgroundColor(ColorScheme cs, AppColorsExtension ac) {
+    if (type == StatusType.deal) {
+      return _dealBackgroundColor(cs, ac, status as DealStatus);
+    }
+    return _participantBackgroundColor(cs, ac, status as ParticipantStatus);
+  }
+
+  Color _dealBackgroundColor(
+          ColorScheme cs, AppColorsExtension ac, DealStatus s) =>
+      switch (s) {
         DealStatus.recruiting => cs.primaryContainer,
-        DealStatus.interested => cs.tertiaryContainer,
-        DealStatus.hold => ac.warningContainer ?? cs.tertiaryContainer,
-        DealStatus.confirmed => ac.successContainer ?? cs.secondaryContainer,
+        DealStatus.ready => ac.infoContainer ?? cs.primaryContainer,
         DealStatus.ordered => ac.infoContainer ?? cs.primaryContainer,
         DealStatus.arrived => cs.secondaryContainer,
         DealStatus.completed => cs.surfaceContainerHigh,
+        DealStatus.expired => ac.warningContainer ?? cs.tertiaryContainer,
+        DealStatus.cancelled => cs.errorContainer,
       };
 
-  Color _textColor(ColorScheme cs, AppColorsExtension ac) => switch (status) {
+  Color _participantBackgroundColor(
+          ColorScheme cs, AppColorsExtension ac, ParticipantStatus s) =>
+      switch (s) {
+        ParticipantStatus.hold => ac.warningContainer ?? cs.tertiaryContainer,
+        ParticipantStatus.confirmed =>
+          ac.successContainer ?? cs.secondaryContainer,
+        ParticipantStatus.denied => cs.errorContainer,
+        ParticipantStatus.ordered => ac.infoContainer ?? cs.primaryContainer,
+        ParticipantStatus.arrived => cs.secondaryContainer,
+        ParticipantStatus.completed => cs.surfaceContainerHigh,
+        ParticipantStatus.expired =>
+          ac.warningContainer ?? cs.tertiaryContainer,
+        ParticipantStatus.disputed =>
+          ac.warningContainer ?? cs.tertiaryContainer,
+      };
+
+  Color _textColor(ColorScheme cs, AppColorsExtension ac) {
+    if (type == StatusType.deal) {
+      return _dealTextColor(cs, ac, status as DealStatus);
+    }
+    return _participantTextColor(cs, ac, status as ParticipantStatus);
+  }
+
+  Color _dealTextColor(ColorScheme cs, AppColorsExtension ac, DealStatus s) =>
+      switch (s) {
         DealStatus.recruiting => cs.onPrimaryContainer,
-        DealStatus.interested => cs.onTertiaryContainer,
-        DealStatus.hold => ac.onWarningContainer ?? cs.onTertiaryContainer,
-        DealStatus.confirmed =>
-          ac.onSuccessContainer ?? cs.onSecondaryContainer,
+        DealStatus.ready => ac.onInfoContainer ?? cs.onPrimaryContainer,
         DealStatus.ordered => ac.onInfoContainer ?? cs.onPrimaryContainer,
         DealStatus.arrived => cs.onSecondaryContainer,
         DealStatus.completed => cs.onSurfaceVariant,
+        DealStatus.expired => ac.onWarningContainer ?? cs.onTertiaryContainer,
+        DealStatus.cancelled => cs.onErrorContainer,
       };
 
-  Color _borderColor(ColorScheme cs, AppColorsExtension ac) => switch (status) {
+  Color _participantTextColor(
+          ColorScheme cs, AppColorsExtension ac, ParticipantStatus s) =>
+      switch (s) {
+        ParticipantStatus.hold =>
+          ac.onWarningContainer ?? cs.onTertiaryContainer,
+        ParticipantStatus.confirmed =>
+          ac.onSuccessContainer ?? cs.onSecondaryContainer,
+        ParticipantStatus.denied => cs.onErrorContainer,
+        ParticipantStatus.ordered =>
+          ac.onInfoContainer ?? cs.onPrimaryContainer,
+        ParticipantStatus.arrived => cs.onSecondaryContainer,
+        ParticipantStatus.completed => cs.onSurfaceVariant,
+        ParticipantStatus.expired =>
+          ac.onWarningContainer ?? cs.onTertiaryContainer,
+        ParticipantStatus.disputed =>
+          ac.onWarningContainer ?? cs.onTertiaryContainer,
+      };
+
+  Color _borderColor(ColorScheme cs, AppColorsExtension ac) {
+    if (type == StatusType.deal) {
+      return _dealBorderColor(cs, ac, status as DealStatus);
+    }
+    return _participantBorderColor(cs, ac, status as ParticipantStatus);
+  }
+
+  Color _dealBorderColor(ColorScheme cs, AppColorsExtension ac, DealStatus s) =>
+      switch (s) {
         DealStatus.recruiting => cs.primary,
-        DealStatus.interested => cs.tertiary,
-        DealStatus.hold => ac.warning,
-        DealStatus.confirmed => ac.success,
+        DealStatus.ready => ac.info,
         DealStatus.ordered => ac.info,
         DealStatus.arrived => cs.secondary,
         DealStatus.completed => cs.outlineVariant,
+        DealStatus.expired => ac.warning,
+        DealStatus.cancelled => cs.error,
+      };
+
+  Color _participantBorderColor(
+          ColorScheme cs, AppColorsExtension ac, ParticipantStatus s) =>
+      switch (s) {
+        ParticipantStatus.hold => ac.warning,
+        ParticipantStatus.confirmed => ac.success,
+        ParticipantStatus.denied => cs.error,
+        ParticipantStatus.ordered => ac.info,
+        ParticipantStatus.arrived => cs.secondary,
+        ParticipantStatus.completed => cs.outlineVariant,
+        ParticipantStatus.expired => ac.warning,
+        ParticipantStatus.disputed => ac.warning,
       };
 }
 

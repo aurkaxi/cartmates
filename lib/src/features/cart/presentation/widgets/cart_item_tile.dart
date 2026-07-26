@@ -98,9 +98,11 @@ class CartItemTile extends ConsumerWidget {
   }
 
   Widget _buildTrailing(ColorScheme cs, TextTheme tt) {
+    final isPassive = item.tab == CartTab.passive;
     return DealStatusChip(
-      status: item.status,
+      status: isPassive ? item.participantStatus : item.dealStatus,
       size: ChipSize.medium,
+      type: isPassive ? StatusType.participant : StatusType.deal,
     );
   }
 }

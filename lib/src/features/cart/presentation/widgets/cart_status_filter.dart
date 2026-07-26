@@ -12,9 +12,6 @@ class CartStatusFilter extends ConsumerWidget {
     final filters = [
       null,
       DealStatus.recruiting,
-      DealStatus.interested,
-      DealStatus.hold,
-      DealStatus.confirmed,
       DealStatus.ordered,
       DealStatus.arrived,
       DealStatus.completed,
