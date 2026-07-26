@@ -1,7 +1,7 @@
 import 'package:cartmates/src/features/auth/presentation/screens/forgot_password_screen.dart';
 import 'package:cartmates/src/features/auth/presentation/screens/login_screen.dart';
 import 'package:cartmates/src/features/auth/presentation/screens/signup_screen.dart';
-import 'package:cartmates/src/features/campaigns/presentation/screens/campaigns_page.dart';
+import 'package:cartmates/src/features/saved/presentation/screens/saved_page.dart';
 import 'package:cartmates/src/features/cart/presentation/screens/cart_page.dart';
 import 'package:cartmates/src/features/cart/presentation/screens/order_status_page.dart';
 import 'package:cartmates/src/features/create/presentation/screens/create_page.dart';
@@ -101,9 +101,27 @@ final GoRouter appRouter = GoRouter(
         StatefulShellBranch(
           routes: [
             GoRoute(
-              path: AppRoutes.campaigns,
-              name: 'campaigns',
-              builder: (context, state) => const CampaignsPage(),
+              path: AppRoutes.saved,
+              name: 'saved',
+              builder: (context, state) => const SavedPage(),
+              routes: [
+                GoRoute(
+                  path: 'detail/:id',
+                  name: 'savedDealDetail',
+                  builder: (context, state) => SameProductDealDetailPage(
+                    dealId: state.pathParameters['id']!,
+                  ),
+                  routes: [
+                    GoRoute(
+                      path: 'join',
+                      name: 'joinSavedDeal',
+                      builder: (context, state) => JoinSameProductDealPage(
+                        dealId: state.pathParameters['id']!,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ],
         ),

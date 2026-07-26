@@ -7,7 +7,10 @@ abstract final class AppRoutes {
 
   static const String splash = '/splash';
   static const String create = '/create';
-  static const String campaigns = '/campaigns';
+  static const String saved = '/saved';
+  static const String savedDetail = '$saved/detail/:id';
+
+  static String savedDetailPath(String id) => '$saved/detail/$id';
   static const String deals = '/deals';
   static const String cart = '/cart';
   static const String cartOrder = '/cart/order/:dealId';

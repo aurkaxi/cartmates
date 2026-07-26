@@ -30,10 +30,10 @@ class AppNavBar extends StatelessWidget {
       selectedIcon: Icons.local_offer,
     ),
     _NavTab(
-      route: AppRoutes.campaigns,
-      label: 'Campaigns',
-      icon: Icons.campaign_outlined,
-      selectedIcon: Icons.campaign,
+      route: AppRoutes.saved,
+      label: 'Saved',
+      icon: Icons.bookmark_outline,
+      selectedIcon: Icons.bookmark,
     ),
     _NavTab(
       route: AppRoutes.profile,

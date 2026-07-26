@@ -11,7 +11,7 @@ export '../config/app_config.dart';
 export '../features/auth/presentation/screens/forgot_password_screen.dart';
 export '../features/auth/presentation/screens/login_screen.dart';
 export '../features/auth/presentation/screens/signup_screen.dart';
-export '../features/campaigns/presentation/screens/campaigns_page.dart';
+export '../features/saved/presentation/screens/saved_page.dart';
 export '../features/cart/presentation/screens/cart_page.dart';
 export '../features/create/presentation/screens/create_page.dart';
 export '../features/deals/presentation/screens/deals_page.dart';
