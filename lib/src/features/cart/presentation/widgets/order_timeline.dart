@@ -12,12 +12,15 @@ class OrderTimeline extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
+    final sorted = List<OrderTimelineEvent>.from(events)
+      ..sort((a, b) => b.timestamp.compareTo(a.timestamp));
+
     return AppCard(
       title: 'Order Timeline',
       child: Column(
-        children: List.generate(events.length, (index) {
-          final event = events[index];
-          final isLast = index == events.length - 1;
+        children: List.generate(sorted.length, (index) {
+          final event = sorted[index];
+          final isLast = index == sorted.length - 1;
           final isLatest = index == 0;
 
           return _TimelineItem(

@@ -14,18 +14,21 @@ class ManageDealTimeline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final sorted = List<OrderTimelineEvent>.from(events)
+      ..sort((a, b) => b.timestamp.compareTo(a.timestamp));
+
     return AppCard(
       title: 'Timeline',
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (events.isEmpty)
+          if (sorted.isEmpty)
             _EmptyTimeline()
           else
-            ...events.asMap().entries.map(
+            ...sorted.asMap().entries.map(
                   (entry) => _TimelineItem(
                     event: entry.value,
-                    isLast: entry.key == events.length - 1,
+                    isLast: entry.key == sorted.length - 1,
                   ),
                 ),
         ],

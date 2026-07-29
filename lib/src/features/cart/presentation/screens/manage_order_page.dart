@@ -101,9 +101,14 @@ class _ManageOrderPageState extends ConsumerState<ManageOrderPage> {
 
   void _showMemberActions(BuildContext context, CartItemMember member) {
     final cs = context.colors;
+    final tt = context.textTheme;
 
     showModalBottomSheet<void>(
       context: context,
+      backgroundColor: cs.surfaceContainerLow,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
+      ),
       builder: (context) => SafeArea(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -120,14 +125,15 @@ class _ManageOrderPageState extends ConsumerState<ManageOrderPage> {
             SizedBox(height: 16.h),
             Text(
               member.name,
-              style: context.textTheme.titleMedium?.copyWith(
+              style: tt.titleMedium?.copyWith(
                 fontWeight: FontWeight.w600,
+                color: cs.onSurface,
               ),
             ),
             SizedBox(height: 8.h),
             Text(
               '${member.quantity} items • \$${member.totalPaid.toStringAsFixed(0)}',
-              style: context.textTheme.bodySmall?.copyWith(
+              style: tt.bodySmall?.copyWith(
                 color: cs.onSurfaceVariant,
               ),
             ),
@@ -135,7 +141,10 @@ class _ManageOrderPageState extends ConsumerState<ManageOrderPage> {
             if (member.status == ParticipantStatus.hold) ...[
               ListTile(
                 leading: Icon(Icons.check_circle, color: cs.primary),
-                title: const Text('Confirm Payment'),
+                title: Text(
+                  'Confirm Payment',
+                  style: tt.bodyMedium?.copyWith(color: cs.onSurface),
+                ),
                 onTap: () {
                   Navigator.pop(context);
                   context.showTypedSnackBar(
@@ -146,7 +155,10 @@ class _ManageOrderPageState extends ConsumerState<ManageOrderPage> {
               ),
               ListTile(
                 leading: Icon(Icons.cancel, color: cs.error),
-                title: const Text('Reject Payment'),
+                title: Text(
+                  'Reject Payment',
+                  style: tt.bodyMedium?.copyWith(color: cs.onSurface),
+                ),
                 onTap: () {
                   Navigator.pop(context);
                   context.showTypedSnackBar(
@@ -155,10 +167,28 @@ class _ManageOrderPageState extends ConsumerState<ManageOrderPage> {
                   );
                 },
               ),
+            ] else if (member.status == ParticipantStatus.denied) ...[
+              ListTile(
+                leading: Icon(Icons.info_outline, color: cs.error),
+                title: Text(
+                  'View Rejection Reason',
+                  style: tt.bodyMedium?.copyWith(color: cs.onSurface),
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  context.showTypedSnackBar(
+                    'Payment rejected - review pending',
+                    type: SnackBarType.info,
+                  );
+                },
+              ),
             ] else if (member.status == ParticipantStatus.disputed) ...[
               ListTile(
                 leading: Icon(Icons.gavel, color: cs.tertiary),
-                title: const Text('View Dispute'),
+                title: Text(
+                  'View Dispute',
+                  style: tt.bodyMedium?.copyWith(color: cs.onSurface),
+                ),
                 onTap: () {
                   Navigator.pop(context);
                   context.showTypedSnackBar(
@@ -170,7 +200,10 @@ class _ManageOrderPageState extends ConsumerState<ManageOrderPage> {
             ] else if (member.status == ParticipantStatus.confirmed) ...[
               ListTile(
                 leading: Icon(Icons.info_outline, color: cs.primary),
-                title: const Text('View Details'),
+                title: Text(
+                  'View Details',
+                  style: tt.bodyMedium?.copyWith(color: cs.onSurface),
+                ),
                 onTap: () {
                   Navigator.pop(context);
                   context.showTypedSnackBar(
