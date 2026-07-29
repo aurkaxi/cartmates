@@ -389,92 +389,95 @@ class _SameProductHostRow extends StatelessWidget {
     final cs = context.theme.colorScheme;
     final tt = context.theme.textTheme;
 
-    return Container(
-      padding: EdgeInsets.all(AppSpacing.md.r),
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(color: cs.outlineVariant),
+    return GestureDetector(
+      onTap: () => context.push(AppRoutes.publicProfilePath(host.userId)),
+      child: Container(
+        padding: EdgeInsets.all(AppSpacing.md.r),
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(color: cs.outlineVariant),
+          ),
         ),
-      ),
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: AppBorders.full,
-            child: AppCachedImage(
-              imageUrl: host.avatarUrl,
-              width: 48,
-              height: 48,
-              fit: BoxFit.cover,
+        child: Row(
+          children: [
+            ClipRRect(
               borderRadius: AppBorders.full,
+              child: AppCachedImage(
+                imageUrl: host.avatarUrl,
+                width: 48,
+                height: 48,
+                fit: BoxFit.cover,
+                borderRadius: AppBorders.full,
+              ),
             ),
-          ),
-          SizedBox(width: AppSpacing.md.w),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Flexible(
-                      child: Text(
-                        host.name,
-                        style: tt.labelLarge?.copyWith(
-                          color: cs.onSurface,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    SizedBox(width: AppSpacing.xs.w),
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: AppSpacing.xs.w,
-                        vertical: 1.h,
-                      ),
-                      decoration: BoxDecoration(
-                        color: cs.primary.withValues(alpha: 0.1),
-                        borderRadius: AppBorders.xs,
-                        border: Border.all(
-                          color: cs.primary.withValues(alpha: 0.2),
+            SizedBox(width: AppSpacing.md.w),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Flexible(
+                        child: Text(
+                          host.name,
+                          style: tt.labelLarge?.copyWith(
+                            color: cs.onSurface,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      child: Text(
-                        'HOST',
+                      SizedBox(width: AppSpacing.xs.w),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: AppSpacing.xs.w,
+                          vertical: 1.h,
+                        ),
+                        decoration: BoxDecoration(
+                          color: cs.primary.withValues(alpha: 0.1),
+                          borderRadius: AppBorders.xs,
+                          border: Border.all(
+                            color: cs.primary.withValues(alpha: 0.2),
+                          ),
+                        ),
+                        child: Text(
+                          'HOST',
+                          style: tt.labelSmall?.copyWith(
+                            color: cs.primary,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 9.sp,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: AppSpacing.xxs.h),
+                  Row(
+                    children: [
+                      HugeIcon(
+                        icon: HugeIcons.strokeRoundedStar,
+                        size: 14.r,
+                        color: cs.tertiary,
+                      ),
+                      SizedBox(width: AppSpacing.xxs.w),
+                      Text(
+                        '${host.reputationPoints} pts · ${host.successCount} success · ${host.failCount} fail',
                         style: tt.labelSmall?.copyWith(
-                          color: cs.primary,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 9.sp,
+                          color: cs.onSurfaceVariant,
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: AppSpacing.xxs.h),
-                Row(
-                  children: [
-                    HugeIcon(
-                      icon: HugeIcons.strokeRoundedStar,
-                      size: 14.r,
-                      color: cs.tertiary,
-                    ),
-                    SizedBox(width: AppSpacing.xxs.w),
-                    Text(
-                      '${host.reputationPoints} pts · ${host.successCount} success · ${host.failCount} fail',
-                      style: tt.labelSmall?.copyWith(
-                        color: cs.onSurfaceVariant,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-          HugeIcon(
-            icon: HugeIcons.strokeRoundedArrowRight01,
-            size: 20.r,
-            color: cs.onSurfaceVariant,
-          ),
-        ],
+            HugeIcon(
+              icon: HugeIcons.strokeRoundedArrowRight01,
+              size: 20.r,
+              color: cs.onSurfaceVariant,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -1560,6 +1563,7 @@ SameProductDealDetail? _getMockSameProductDetail(String dealId) {
     source: 'https://www.amazon.com/dp/B09XS7JWHH',
     categoryTags: const ['TECH & AUDIO', 'SAME PRODUCT'],
     host: const SameProductDealHostInfo(
+      userId: '2',
       name: 'Alex Chen',
       avatarUrl: 'https://picsum.photos/seed/alexchen/200/200',
       reputationPoints: 1247,

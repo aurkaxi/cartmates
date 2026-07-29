@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'deal.dart';
 
 class SameProductDealHostInfo extends Equatable {
+  final String userId;
   final String name;
   final String avatarUrl;
   final int reputationPoints;
@@ -12,6 +13,7 @@ class SameProductDealHostInfo extends Equatable {
   final String? contactNumber;
 
   const SameProductDealHostInfo({
+    required this.userId,
     required this.name,
     required this.avatarUrl,
     required this.reputationPoints,
@@ -23,6 +25,7 @@ class SameProductDealHostInfo extends Equatable {
 
   @override
   List<Object?> get props => [
+        userId,
         name,
         avatarUrl,
         reputationPoints,

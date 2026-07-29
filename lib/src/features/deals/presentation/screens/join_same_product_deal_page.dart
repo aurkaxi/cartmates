@@ -823,6 +823,7 @@ SameProductDealDetail? _getMockJoinDealDetail(String dealId) {
     source: 'https://www.amazon.com/dp/B09XS7JWHH',
     categoryTags: const ['TECH & AUDIO', 'SAME PRODUCT'],
     host: const SameProductDealHostInfo(
+      userId: '2',
       name: 'Alex Chen',
       avatarUrl: 'https://picsum.photos/seed/alexchen/200/200',
       reputationPoints: 1247,
