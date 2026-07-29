@@ -36,7 +36,10 @@ class OrderSummaryCard extends StatelessWidget {
               label: 'Total Paid', value: '\$${item.price.toStringAsFixed(2)}'),
           _InfoRow(label: 'Order ID', value: '#${item.id.toUpperCase()}'),
           if (item.trackingNumber != null) ...[
-            _InfoRow(label: 'Tracking', value: item.trackingNumber!),
+            _TrackingRow(
+              trackingNumber: item.trackingNumber!,
+              trackingUrl: item.trackingUrl,
+            ),
           ],
         ],
       ),
@@ -71,6 +74,99 @@ class _InfoRow extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class _TrackingRow extends StatelessWidget {
+  const _TrackingRow({
+    required this.trackingNumber,
+    this.trackingUrl,
+  });
+
+  final String trackingNumber;
+  final String? trackingUrl;
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = context.colors;
+    final tt = context.textTheme;
+    final isUrl = trackingUrl != null &&
+        (trackingUrl!.startsWith('http://') ||
+            trackingUrl!.startsWith('https://'));
+
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            'Tracking',
+            style: tt.bodyMedium?.copyWith(
+              color: cs.onSurfaceVariant,
+            ),
+          ),
+          if (isUrl)
+            GestureDetector(
+              onTap: () async {
+                try {
+                  final uri = Uri.parse(trackingUrl!);
+                  await launchUrl(uri, mode: LaunchMode.externalApplication);
+                } catch (_) {}
+              },
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.link,
+                    size: 14.sp,
+                    color: cs.primary,
+                  ),
+                  SizedBox(width: 4.w),
+                  Flexible(
+                    child: Text(
+                      trackingNumber,
+                      style: tt.bodyMedium?.copyWith(
+                        color: cs.primary,
+                        fontWeight: FontWeight.w600,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          else
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  trackingNumber,
+                  style: tt.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                SizedBox(width: 6.w),
+                GestureDetector(
+                  onTap: () async {
+                    await CopyService.instance.copy(trackingNumber);
+                    if (context.mounted) {
+                      context.showTypedSnackBar(
+                        'Tracking number copied',
+                        type: SnackBarType.success,
+                      );
+                    }
+                  },
+                  child: Icon(
+                    Icons.copy_rounded,
+                    size: 14.sp,
+                    color: cs.onSurfaceVariant,
+                  ),
+                ),
+              ],
+            ),
         ],
       ),
     );
