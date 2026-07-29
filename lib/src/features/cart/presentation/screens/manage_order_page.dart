@@ -222,10 +222,17 @@ class _ManageOrderPageState extends ConsumerState<ManageOrderPage> {
 
   void _showStatusChangeConfirmation(BuildContext context, dynamic item) {
     final cs = context.colors;
+    final tt = context.textTheme;
 
     showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
+        backgroundColor: cs.surfaceContainerLow,
+        titleTextStyle: tt.titleMedium?.copyWith(
+          fontWeight: FontWeight.w600,
+          color: cs.onSurface,
+        ),
+        contentTextStyle: tt.bodyMedium?.copyWith(color: cs.onSurface),
         title: const Text('Confirm Status Change'),
         content: Text(
           'Are you sure you want to mark this deal as ${_getNextStatus(item.dealStatus)}?',
@@ -233,7 +240,7 @@ class _ManageOrderPageState extends ConsumerState<ManageOrderPage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text('Cancel', style: TextStyle(color: cs.onSurfaceVariant)),
           ),
           TextButton(
             onPressed: () {
@@ -243,10 +250,7 @@ class _ManageOrderPageState extends ConsumerState<ManageOrderPage> {
                 type: SnackBarType.success,
               );
             },
-            child: Text(
-              'Confirm',
-              style: TextStyle(color: cs.primary),
-            ),
+            child: Text('Confirm', style: TextStyle(color: cs.primary)),
           ),
         ],
       ),
@@ -261,27 +265,40 @@ class _ManageOrderPageState extends ConsumerState<ManageOrderPage> {
       text: item.trackingUrl ?? '',
     );
     final cs = context.colors;
+    final tt = context.textTheme;
 
     showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
+        backgroundColor: cs.surfaceContainerLow,
+        titleTextStyle: tt.titleMedium?.copyWith(
+          fontWeight: FontWeight.w600,
+          color: cs.onSurface,
+        ),
+        contentTextStyle: tt.bodyMedium?.copyWith(color: cs.onSurface),
         title: const Text('Update Tracking'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
               controller: numberController,
-              decoration: const InputDecoration(
+              style: tt.bodyMedium?.copyWith(color: cs.onSurface),
+              decoration: InputDecoration(
                 labelText: 'Tracking Number',
                 hintText: 'Enter tracking number',
+                labelStyle: tt.bodySmall?.copyWith(color: cs.onSurfaceVariant),
+                hintStyle: tt.bodySmall?.copyWith(color: cs.onSurfaceVariant),
               ),
             ),
             SizedBox(height: 12.h),
             TextField(
               controller: urlController,
-              decoration: const InputDecoration(
+              style: tt.bodyMedium?.copyWith(color: cs.onSurface),
+              decoration: InputDecoration(
                 labelText: 'Tracking URL',
                 hintText: 'https://carrier.com/track/...',
+                labelStyle: tt.bodySmall?.copyWith(color: cs.onSurfaceVariant),
+                hintStyle: tt.bodySmall?.copyWith(color: cs.onSurfaceVariant),
               ),
             ),
           ],
@@ -289,7 +306,7 @@ class _ManageOrderPageState extends ConsumerState<ManageOrderPage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text('Cancel', style: TextStyle(color: cs.onSurfaceVariant)),
           ),
           TextButton(
             onPressed: () {
@@ -299,10 +316,7 @@ class _ManageOrderPageState extends ConsumerState<ManageOrderPage> {
                 type: SnackBarType.success,
               );
             },
-            child: Text(
-              'Save',
-              style: TextStyle(color: cs.primary),
-            ),
+            child: Text('Save', style: TextStyle(color: cs.primary)),
           ),
         ],
       ),
