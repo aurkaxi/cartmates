@@ -10,6 +10,7 @@ import 'package:cartmates/src/features/deals/presentation/screens/same_product_d
 import 'package:cartmates/src/features/deals/presentation/screens/deals_page.dart';
 import 'package:cartmates/src/features/onboarding/presentation/screens/onboarding_page.dart';
 import 'package:cartmates/src/features/profile/presentation/screens/profile_page.dart';
+import 'package:cartmates/src/features/profile/presentation/screens/public_profile_page.dart';
 import 'package:cartmates/src/routing/app_routes.dart';
 import 'package:cartmates/src/routing/app_scaffold.dart';
 import 'package:cartmates/src/routing/global_navigator.dart';
@@ -135,6 +136,13 @@ final GoRouter appRouter = GoRouter(
           ],
         ),
       ],
+    ),
+    GoRoute(
+      path: AppRoutes.publicProfile,
+      name: 'publicProfile',
+      builder: (context, state) => PublicProfilePage(
+        userId: state.pathParameters['userId']!,
+      ),
     ),
   ],
 );

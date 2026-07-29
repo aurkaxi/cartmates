@@ -28,5 +28,9 @@ abstract final class AppRoutes {
   static String joinSameProductDealPath(String dealId) =>
       '$deals/detail/$dealId/join';
 
+  static const String publicProfile = '/profile/:userId';
+
+  static String publicProfilePath(String userId) => '/profile/$userId';
+
   static String cartOrderPath(String dealId) => '/cart/order/$dealId';
 }
