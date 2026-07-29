@@ -2,7 +2,6 @@ import 'package:cartmates/src/imports/imports.dart';
 
 import '../../domain/entities/deal.dart';
 import '../../domain/entities/deal_category.dart';
-import '../../domain/entities/vendor_deal.dart';
 import '../widgets/widgets.dart';
 
 class DealsPage extends ConsumerWidget {
@@ -174,11 +173,6 @@ class _ClosingSoonSection extends StatelessWidget {
                     AppRoutes.sameProductDealDetailPath(deal.id),
                   ),
                 );
-              } else if (deal is SameVendorDeal) {
-                return SameVendorDealCard(
-                  deal: deal,
-                  variant: VendorCardVariant.closingSoon,
-                );
               }
               return const SizedBox.shrink();
             },
@@ -262,11 +256,6 @@ class _SuggestedSection extends StatelessWidget {
                   onTap: () => context.push(
                     AppRoutes.sameProductDealDetailPath(deal.id),
                   ),
-                );
-              } else if (deal is SameVendorDeal) {
-                return SameVendorDealCard(
-                  deal: deal,
-                  variant: VendorCardVariant.suggested,
                 );
               }
               return const SizedBox.shrink();
@@ -355,34 +344,6 @@ final _sampleClosingSoonDeals = <dynamic>[
     holdQty: 2,
     timeRemaining: Duration(hours: 5, minutes: 30),
   ),
-  const SameVendorDeal(
-    id: 'v1',
-    name: 'Costco Campus Delivery',
-    imageUrls: [
-      'https://picsum.photos/seed/costco1/200/200',
-      'https://picsum.photos/seed/costco2/200/200',
-      'https://picsum.photos/seed/costco3/200/200',
-      'https://picsum.photos/seed/costco4/200/200',
-    ],
-    minPrice: 350,
-    maxPrice: 500,
-    timeRemaining: Duration(hours: 2, minutes: 15),
-    tag: 'Free Shipping Split',
-  ),
-  const SameVendorDeal(
-    id: 'v2',
-    name: 'H-Mart Bulk Split',
-    imageUrls: [
-      'https://picsum.photos/seed/hmart1/200/200',
-      'https://picsum.photos/seed/hmart2/200/200',
-      'https://picsum.photos/seed/hmart3/200/200',
-      'https://picsum.photos/seed/hmart4/200/200',
-    ],
-    minPrice: 120,
-    maxPrice: 200,
-    timeRemaining: Duration(hours: 5, minutes: 30),
-    tag: 'Wholesale Pricing',
-  ),
 ];
 
 final _sampleMaxSavingDeals = [
@@ -423,19 +384,6 @@ final _sampleSuggestedDeals = <dynamic>[
     qtyGoal: 100,
     timeRemaining: Duration(days: 2),
   ),
-  const SameVendorDeal(
-    id: 'v3',
-    name: 'Local Farmers Market',
-    imageUrls: [
-      'https://picsum.photos/seed/farm1/200/200',
-      'https://picsum.photos/seed/farm2/200/200',
-      'https://picsum.photos/seed/farm3/200/200',
-      'https://picsum.photos/seed/farm4/200/200',
-    ],
-    minPrice: 45,
-    maxPrice: 100,
-    timeRemaining: Duration(days: 2),
-  ),
   const SameProductDeal(
     id: '6',
     name: 'Instant Ramen Box (48 Pack)',
@@ -445,18 +393,5 @@ final _sampleSuggestedDeals = <dynamic>[
     qtyCurrent: 12,
     qtyGoal: 48,
     timeRemaining: Duration(days: 3),
-  ),
-  const SameVendorDeal(
-    id: 'v4',
-    name: 'Target Dorm Run',
-    imageUrls: [
-      'https://picsum.photos/seed/target1/200/200',
-      'https://picsum.photos/seed/target2/200/200',
-      'https://picsum.photos/seed/target3/200/200',
-      'https://picsum.photos/seed/target4/200/200',
-    ],
-    minPrice: 150,
-    maxPrice: 200,
-    timeRemaining: Duration(days: 1),
   ),
 ];

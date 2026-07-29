@@ -1,7 +1,7 @@
-import 'package:cartmates/src/utils/typedefs.dart';
 import 'package:cartmates/src/services/deals_service.dart';
+import 'package:cartmates/src/utils/typedefs.dart';
+
 import '../../domain/entities/deal.dart';
-import '../../domain/entities/vendor_deal.dart';
 import '../../domain/entities/deal_category.dart';
 import '../../domain/repositories/deals_repository.dart';
 
@@ -56,7 +56,6 @@ class DealsRepositoryImpl implements DealsRepository {
       final List<dynamic> items = data['deals'] ?? data['data'] ?? [];
       return items.map((e) {
         final map = e as Map<String, dynamic>;
-        if (map['type'] == 'vendor') return _parseVendorDeal(map);
         return _parseProductDeal(map);
       }).toList();
     });
@@ -78,25 +77,6 @@ class DealsRepositoryImpl implements DealsRepository {
       savingsPercentage:
           (json['savings_percentage'] ?? json['savingsPercentage'] ?? 0)
               .toDouble(),
-      timeRemaining: json['time_remaining'] != null
-          ? Duration(seconds: json['time_remaining'] as int)
-          : null,
-    );
-  }
-
-  SameVendorDeal _parseVendorDeal(Map<String, dynamic> json) {
-    return SameVendorDeal(
-      id: json['id'].toString(),
-      name: json['name'] ?? '',
-      imageUrls: List<String>.from(
-        (json['image_urls'] ??
-                json['imageUrls'] as List<dynamic>? ??
-                <String>[])
-            .map((e) => e.toString()),
-      ),
-      minPrice: (json['min_price'] ?? json['minPrice'] ?? 0).toDouble(),
-      maxPrice: (json['max_price'] ?? json['maxPrice'] ?? 0).toDouble(),
-      tag: json['tag'],
       timeRemaining: json['time_remaining'] != null
           ? Duration(seconds: json['time_remaining'] as int)
           : null,

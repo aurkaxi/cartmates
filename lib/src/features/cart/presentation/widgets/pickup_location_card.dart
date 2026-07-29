@@ -1,5 +1,5 @@
-import 'package:cartmates/src/imports/imports.dart';
 import 'package:cartmates/src/features/deals/domain/entities/same_product_deal_detail.dart';
+import 'package:cartmates/src/imports/imports.dart';
 
 class PickupLocationCard extends StatelessWidget {
   const PickupLocationCard({super.key, required this.dealDetail});
@@ -80,7 +80,7 @@ class PickupLocationCard extends StatelessWidget {
                       deadlineText,
                       style: tt.labelLarge?.copyWith(color: cs.onSurface),
                     ),
-                    SizedBox(height: 2),
+                    const SizedBox(height: 2),
                     Text(
                       timerText,
                       style: tt.labelSmall?.copyWith(color: cs.error),
@@ -118,7 +118,7 @@ class PickupLocationCard extends StatelessWidget {
                       dealDetail.pickupLocation,
                       style: tt.labelLarge?.copyWith(color: cs.onSurface),
                     ),
-                    SizedBox(height: 2),
+                    const SizedBox(height: 2),
                     Text(
                       dealDetail.pickupDetail,
                       style: tt.labelSmall?.copyWith(
