@@ -174,17 +174,62 @@ User has 3 options:
 ## Files
 | File | Purpose |
 |------|---------|
-| `lib/src/features/cart/presentation/screens/order_status_page.dart` | Main page (placeholder currently) |
+| `lib/src/features/cart/presentation/screens/order_status_page.dart` | Main page (passive view) |
+| `lib/src/features/cart/presentation/widgets/order_summary_card.dart` | Order summary |
+| `lib/src/features/cart/presentation/widgets/order_timeline.dart` | Timeline widget |
+| `lib/src/features/cart/presentation/widgets/host_info_card.dart` | Host info + call |
+| `lib/src/features/cart/presentation/widgets/pickup_location_card.dart` | Pickup + deadline grid |
+| `lib/src/features/cart/presentation/widgets/deal_progress_card.dart` | Deal progress bar |
+| `lib/src/features/cart/presentation/widgets/action_banner.dart` | Contextual action banner |
+| `lib/src/features/cart/presentation/widgets/host_updates_feed.dart` | Host broadcasts |
+| `lib/src/features/cart/presentation/providers/order_status_provider.dart` | State providers |
+
+---
+
+## Action Pages (Future)
+
+### Resubmit Payment Proof
+- Triggered from: `ActionBanner` when `participantStatus == denied`
+- Route: `/cart/order/:dealId/resubmit`
+- UI: Upload screenshot form (reuse join deal payment upload)
+- Action: Updates `paymentProofUrl`, sets status back to `hold`
+- Fields: image picker, optional note
+
+### Dispute to Admin
+- Triggered from: `ActionBanner` when `participantStatus == denied`
+- Route: `/cart/order/:dealId/dispute`
+- UI: Form with reason text field, optional evidence upload
+- Action: Sets `participantStatus` to `disputed`, adds dispute record
+- Fields: reason (required), evidence URLs (optional)
+
+### Cancel Join
+- Triggered from: `ActionBanner` when `participantStatus == hold`
+- Route: `/cart/order/:dealId/cancel`
+- UI: Confirmation dialog (not a full page)
+- Action: Removes participant from deal, navigates back to cart
+
+### Confirm Receipt
+- Triggered from: `ActionBanner` when `participantStatus == arrived` and `received == false`
+- Route: `/cart/order/:dealId/confirm-receipt`
+- UI: Confirmation dialog with item summary
+- Action: Sets `received = true`, `participantStatus` to `completed`
+
+### View Tracking
+- Triggered from: OrderSummaryCard when tracking exists
+- Route: External URL or in-app webview
+- Action: Opens `trackingUrl` if available, else shows tracking number with copy
 
 ---
 
 ## Pending
-- [ ] Design timeline/progress widget
+- [ ] Build resubmit payment proof page
+- [ ] Build dispute form page
+- [ ] Build cancel join confirmation dialog
+- [ ] Build confirm receipt dialog
+- [ ] Build tracking viewer
 - [ ] Design participant list (host view)
-- [ ] Design payment action buttons (confirm/reject)
+- [ ] Design payment action buttons (confirm/reject) - host
 - [ ] Design tracking input form (host)
-- [ ] Design pickup confirmation (passive)
-- [ ] Design dispute flow UI
-- [ ] Design cancel deal flow
+- [ ] Design cancel deal flow (host)
 - [ ] Design refund status display
 - [ ] Backend endpoints for all actions

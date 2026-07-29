@@ -12,7 +12,8 @@ class AppScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final location = GoRouterState.of(context).uri.toString();
-    final hideBottomNav = location.contains('/detail');
+    final hideBottomNav =
+        location.contains('/detail') || location.contains('/order/');
 
     return Scaffold(
       body: navigationShell,

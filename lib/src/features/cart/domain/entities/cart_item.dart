@@ -1,4 +1,5 @@
 import 'package:cartmates/src/features/cart/domain/entities/deal_status.dart';
+import 'package:cartmates/src/features/cart/domain/entities/order_timeline_event.dart';
 import 'package:equatable/equatable.dart';
 
 class CartItem extends Equatable {
@@ -20,6 +21,9 @@ class CartItem extends Equatable {
   final String? trackingNumber;
   final String? trackingUrl;
   final bool received;
+  final String? paymentProofUrl;
+  final String? rejectionReason;
+  final List<OrderTimelineEvent> timelineEvents;
 
   const CartItem({
     required this.id,
@@ -40,6 +44,9 @@ class CartItem extends Equatable {
     this.trackingNumber,
     this.trackingUrl,
     this.received = false,
+    this.paymentProofUrl,
+    this.rejectionReason,
+    this.timelineEvents = const [],
   });
 
   String get quantityText => 'Qty: $quantity';
@@ -71,5 +78,8 @@ class CartItem extends Equatable {
         trackingNumber,
         trackingUrl,
         received,
+        paymentProofUrl,
+        rejectionReason,
+        timelineEvents,
       ];
 }

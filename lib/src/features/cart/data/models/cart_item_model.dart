@@ -1,5 +1,6 @@
 import 'package:cartmates/src/features/cart/domain/entities/cart_item.dart';
 import 'package:cartmates/src/features/cart/domain/entities/deal_status.dart';
+import 'package:cartmates/src/features/cart/domain/entities/order_timeline_event.dart';
 
 class CartItemModel extends CartItem {
   const CartItemModel({
@@ -21,6 +22,9 @@ class CartItemModel extends CartItem {
     super.trackingNumber,
     super.trackingUrl,
     super.received,
+    super.paymentProofUrl,
+    super.rejectionReason,
+    super.timelineEvents,
   });
 
   factory CartItemModel.fromJson(Map<String, dynamic> json) {
@@ -54,6 +58,21 @@ class CartItemModel extends CartItem {
       trackingNumber: json['trackingNumber'] as String?,
       trackingUrl: json['trackingUrl'] as String?,
       received: json['received'] as bool? ?? false,
+      paymentProofUrl: json['paymentProofUrl'] as String?,
+      rejectionReason: json['rejectionReason'] as String?,
+      timelineEvents: (json['timelineEvents'] as List<dynamic>?)
+              ?.map((e) => OrderTimelineEvent(
+                    type: OrderTimelineEventType.values.firstWhere(
+                      (t) => t.name == (e['type'] as String),
+                      orElse: () => OrderTimelineEventType.joined,
+                    ),
+                    title: e['title'] as String,
+                    description: e['description'] as String,
+                    timestamp: DateTime.parse(e['timestamp'] as String),
+                    hostMessage: e['hostMessage'] as String?,
+                  ))
+              .toList() ??
+          const [],
     );
   }
 
@@ -77,6 +96,17 @@ class CartItemModel extends CartItem {
       'trackingNumber': trackingNumber,
       'trackingUrl': trackingUrl,
       'received': received,
+      'paymentProofUrl': paymentProofUrl,
+      'rejectionReason': rejectionReason,
+      'timelineEvents': timelineEvents
+          .map((e) => {
+                'type': e.type.name,
+                'title': e.title,
+                'description': e.description,
+                'timestamp': e.timestamp.toIso8601String(),
+                'hostMessage': e.hostMessage,
+              })
+          .toList(),
     };
   }
 }

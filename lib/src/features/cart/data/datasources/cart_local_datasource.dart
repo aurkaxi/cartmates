@@ -1,6 +1,7 @@
 import 'package:cartmates/src/features/cart/data/models/cart_item_model.dart';
 import 'package:cartmates/src/features/cart/domain/entities/cart_item.dart';
 import 'package:cartmates/src/features/cart/domain/entities/deal_status.dart';
+import 'package:cartmates/src/features/cart/domain/entities/order_timeline_event.dart';
 import 'package:cartmates/src/utils/typedefs.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -29,6 +30,21 @@ class CartLocalDataSourceImpl implements CartLocalDataSource {
       estimatedArrival: DateTime.now().add(const Duration(days: 2)),
       progressCurrent: 18,
       progressGoal: 20,
+      paymentProofUrl: 'https://example.com/proof_1.png',
+      timelineEvents: [
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.joined,
+          title: 'Joined Group Buy',
+          description: 'You joined the deal for Organic Avocados x 2.',
+          timestamp: DateTime.now().subtract(const Duration(days: 3)),
+        ),
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.paymentSubmitted,
+          title: 'Payment Proof Submitted',
+          description: 'You uploaded your Venmo payment screenshot.',
+          timestamp: DateTime.now().subtract(const Duration(days: 3)),
+        ),
+      ],
     ),
     // 2. Passive - recruiting, confirmed (host approved, deal still recruiting)
     CartItemModel(
@@ -48,6 +64,27 @@ class CartLocalDataSourceImpl implements CartLocalDataSource {
       joinedAt: DateTime.now().subtract(const Duration(days: 1)),
       progressCurrent: 25,
       progressGoal: 32,
+      paymentProofUrl: 'https://example.com/proof_2.png',
+      timelineEvents: [
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.joined,
+          title: 'Joined Group Buy',
+          description: 'You joined the deal for Premium Paper Towels x 1.',
+          timestamp: DateTime.now().subtract(const Duration(days: 1)),
+        ),
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.paymentSubmitted,
+          title: 'Payment Proof Submitted',
+          description: 'You uploaded your Venmo payment screenshot.',
+          timestamp: DateTime.now().subtract(const Duration(hours: 23)),
+        ),
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.paymentConfirmed,
+          title: 'Payment Verified',
+          description: 'Host verified your payment. You are confirmed!',
+          timestamp: DateTime.now().subtract(const Duration(hours: 20)),
+        ),
+      ],
     ),
     // 3. Passive - recruiting, denied (host rejected, user can dispute)
     CartItemModel(
@@ -64,6 +101,31 @@ class CartLocalDataSourceImpl implements CartLocalDataSource {
       joinedAt: DateTime.now().subtract(const Duration(hours: 12)),
       progressCurrent: 8,
       progressGoal: 10,
+      rejectionReason:
+          'The payment screenshot you uploaded is too blurry to read the transaction ID. Please re-upload a clearer image.',
+      timelineEvents: [
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.joined,
+          title: 'Joined Group Buy',
+          description: 'You joined the deal for Artisan Coffee Beans x 3.',
+          timestamp: DateTime.now().subtract(const Duration(hours: 12)),
+        ),
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.paymentSubmitted,
+          title: 'Payment Proof Submitted',
+          description: 'You uploaded your Venmo payment screenshot.',
+          timestamp: DateTime.now().subtract(const Duration(hours: 11)),
+        ),
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.paymentRejected,
+          title: 'Payment Rejected',
+          description:
+              'The host could not verify your payment proof. See rejection reason.',
+          timestamp: DateTime.now().subtract(const Duration(hours: 5)),
+          hostMessage:
+              'The payment screenshot you uploaded is too blurry to read the transaction ID. Please re-upload a clearer image.',
+        ),
+      ],
     ),
     // 4. Passive - expired, confirmed (time up, host deciding cancel/order)
     CartItemModel(
@@ -81,6 +143,32 @@ class CartLocalDataSourceImpl implements CartLocalDataSource {
       estimatedArrival: DateTime.now().subtract(const Duration(days: 1)),
       progressCurrent: 10,
       progressGoal: 10,
+      timelineEvents: [
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.joined,
+          title: 'Joined Group Buy',
+          description: 'You joined the deal for Storage Bins Set x 1.',
+          timestamp: DateTime.now().subtract(const Duration(days: 7)),
+        ),
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.paymentSubmitted,
+          title: 'Payment Proof Submitted',
+          description: 'You uploaded your Venmo payment screenshot.',
+          timestamp: DateTime.now().subtract(const Duration(days: 6)),
+        ),
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.paymentConfirmed,
+          title: 'Payment Verified',
+          description: 'Host verified your payment. You are confirmed!',
+          timestamp: DateTime.now().subtract(const Duration(days: 5)),
+        ),
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.dealReady,
+          title: 'Goal Reached',
+          description: 'The deal reached its minimum quantity goal.',
+          timestamp: DateTime.now().subtract(const Duration(days: 1)),
+        ),
+      ],
     ),
     // 5. Passive - ordered, confirmed (host ordered, tracking available)
     CartItemModel(
@@ -100,6 +188,46 @@ class CartLocalDataSourceImpl implements CartLocalDataSource {
       progressGoal: 10,
       trackingNumber: 'TRK123456789',
       trackingUrl: 'https://track.example.com/TRK123456789',
+      paymentProofUrl: 'https://example.com/proof_5.png',
+      timelineEvents: [
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.joined,
+          title: 'Joined Group Buy',
+          description: 'You joined the deal for IKEA Dorm Run x 1.',
+          timestamp: DateTime.now().subtract(const Duration(days: 2)),
+        ),
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.paymentSubmitted,
+          title: 'Payment Proof Submitted',
+          description: 'You uploaded your Venmo payment screenshot.',
+          timestamp: DateTime.now().subtract(const Duration(days: 1)),
+        ),
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.paymentConfirmed,
+          title: 'Payment Verified',
+          description: 'Host verified your payment. You are confirmed!',
+          timestamp: DateTime.now().subtract(const Duration(hours: 20)),
+        ),
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.dealReady,
+          title: 'Goal Reached',
+          description: 'The deal reached its minimum quantity goal.',
+          timestamp: DateTime.now().subtract(const Duration(hours: 18)),
+        ),
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.dealOrdered,
+          title: 'Campaign Funded & Ordered',
+          description: 'Host successfully placed the bulk order.',
+          timestamp: DateTime.now().subtract(const Duration(hours: 12)),
+        ),
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.shipped,
+          title: 'Order Shipped',
+          description:
+              'Vendor has dispatched the order. Estimated delivery: 1-2 days.',
+          timestamp: DateTime.now().subtract(const Duration(hours: 6)),
+        ),
+      ],
     ),
     // 6. Passive - arrived, not received (goods at host, pending pickup)
     CartItemModel(
@@ -115,6 +243,48 @@ class CartLocalDataSourceImpl implements CartLocalDataSource {
       hostName: 'Lisa Chen',
       joinedAt: DateTime.now().subtract(const Duration(days: 10)),
       received: false,
+      paymentProofUrl: 'https://example.com/proof_6.png',
+      timelineEvents: [
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.joined,
+          title: 'Joined Group Buy',
+          description: 'You joined the deal for Bulk Laundry Detergent x 2.',
+          timestamp: DateTime.now().subtract(const Duration(days: 10)),
+        ),
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.paymentSubmitted,
+          title: 'Payment Proof Submitted',
+          description: 'You uploaded your Venmo payment screenshot.',
+          timestamp: DateTime.now().subtract(const Duration(days: 9)),
+        ),
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.paymentConfirmed,
+          title: 'Payment Verified',
+          description: 'Host verified your payment. You are confirmed!',
+          timestamp: DateTime.now().subtract(const Duration(days: 8)),
+        ),
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.dealOrdered,
+          title: 'Campaign Funded & Ordered',
+          description: 'Host successfully placed the bulk order.',
+          timestamp: DateTime.now().subtract(const Duration(days: 5)),
+        ),
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.shipped,
+          title: 'Order Shipped',
+          description:
+              'Vendor has dispatched the order. Estimated delivery: 1-2 days.',
+          timestamp: DateTime.now().subtract(const Duration(days: 2)),
+        ),
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.arrived,
+          title: 'Order Arrived',
+          description: 'Items are ready for pickup at the designated location.',
+          timestamp: DateTime.now().subtract(const Duration(hours: 3)),
+          hostMessage:
+              'Hey everyone, I just got the notification that the delivery truck is on campus. I will update again once I have sorted everything.',
+        ),
+      ],
     ),
     // 7. Passive - arrived, received (user picked up)
     CartItemModel(
@@ -130,6 +300,45 @@ class CartLocalDataSourceImpl implements CartLocalDataSource {
       hostName: 'Alex Rivera',
       joinedAt: DateTime.now().subtract(const Duration(days: 14)),
       received: true,
+      paymentProofUrl: 'https://example.com/proof_7.png',
+      timelineEvents: [
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.joined,
+          title: 'Joined Group Buy',
+          description: 'You joined the deal for Campus Snack Pack x 1.',
+          timestamp: DateTime.now().subtract(const Duration(days: 14)),
+        ),
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.paymentSubmitted,
+          title: 'Payment Proof Submitted',
+          description: 'You uploaded your Venmo payment screenshot.',
+          timestamp: DateTime.now().subtract(const Duration(days: 13)),
+        ),
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.paymentConfirmed,
+          title: 'Payment Verified',
+          description: 'Host verified your payment. You are confirmed!',
+          timestamp: DateTime.now().subtract(const Duration(days: 12)),
+        ),
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.dealOrdered,
+          title: 'Campaign Funded & Ordered',
+          description: 'Host successfully placed the bulk order.',
+          timestamp: DateTime.now().subtract(const Duration(days: 7)),
+        ),
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.arrived,
+          title: 'Order Arrived',
+          description: 'Items are ready for pickup at the designated location.',
+          timestamp: DateTime.now().subtract(const Duration(days: 2)),
+        ),
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.received,
+          title: 'Pickup Confirmed',
+          description: 'You have confirmed receipt of your items.',
+          timestamp: DateTime.now().subtract(const Duration(days: 1)),
+        ),
+      ],
     ),
     // 8. Passive - completed (all done)
     CartItemModel(
@@ -145,8 +354,47 @@ class CartLocalDataSourceImpl implements CartLocalDataSource {
       hostName: 'Jordan Kim',
       joinedAt: DateTime.now().subtract(const Duration(days: 30)),
       received: true,
+      paymentProofUrl: 'https://example.com/proof_8.png',
+      timelineEvents: [
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.joined,
+          title: 'Joined Group Buy',
+          description: 'You joined the deal for Group Textbook Order x 1.',
+          timestamp: DateTime.now().subtract(const Duration(days: 30)),
+        ),
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.paymentSubmitted,
+          title: 'Payment Proof Submitted',
+          description: 'You uploaded your Venmo payment screenshot.',
+          timestamp: DateTime.now().subtract(const Duration(days: 29)),
+        ),
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.paymentConfirmed,
+          title: 'Payment Verified',
+          description: 'Host verified your payment. You are confirmed!',
+          timestamp: DateTime.now().subtract(const Duration(days: 28)),
+        ),
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.dealOrdered,
+          title: 'Campaign Funded & Ordered',
+          description: 'Host successfully placed the bulk order.',
+          timestamp: DateTime.now().subtract(const Duration(days: 20)),
+        ),
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.arrived,
+          title: 'Order Arrived',
+          description: 'Items are ready for pickup at the designated location.',
+          timestamp: DateTime.now().subtract(const Duration(days: 10)),
+        ),
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.received,
+          title: 'Pickup Confirmed',
+          description: 'You have confirmed receipt of your items.',
+          timestamp: DateTime.now().subtract(const Duration(days: 8)),
+        ),
+      ],
     ),
-    // 9. Passive - recruiting, disputed (admin dispute in progress)
+    // 9. Passive - recruiting, denied (can dispute - wireless earbuds)
     CartItemModel(
       id: 'cart_9',
       dealId: 'deal_9',
@@ -161,6 +409,31 @@ class CartLocalDataSourceImpl implements CartLocalDataSource {
       joinedAt: DateTime.now().subtract(const Duration(days: 5)),
       progressCurrent: 12,
       progressGoal: 15,
+      rejectionReason:
+          'Payment not received. Please send payment to the listed Venmo account.',
+      timelineEvents: [
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.joined,
+          title: 'Joined Group Buy',
+          description: 'You joined the deal for Wireless Earbuds Bulk x 1.',
+          timestamp: DateTime.now().subtract(const Duration(days: 5)),
+        ),
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.paymentSubmitted,
+          title: 'Payment Proof Submitted',
+          description: 'You uploaded your Venmo payment screenshot.',
+          timestamp: DateTime.now().subtract(const Duration(days: 4)),
+        ),
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.paymentRejected,
+          title: 'Payment Rejected',
+          description:
+              'The host could not verify your payment. You can dispute this.',
+          timestamp: DateTime.now().subtract(const Duration(days: 3)),
+          hostMessage:
+              'Payment not received. Please send payment to the listed Venmo account.',
+        ),
+      ],
     ),
   ];
 
