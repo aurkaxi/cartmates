@@ -33,4 +33,6 @@ abstract final class AppRoutes {
   static String publicProfilePath(String userId) => '/profile/$userId';
 
   static String cartOrderPath(String dealId) => '/cart/order/$dealId';
+  static const String manageOrder = '/cart/manage/:dealId';
+  static String manageOrderPath(String dealId) => '/cart/manage/$dealId';
 }

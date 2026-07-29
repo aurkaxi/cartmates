@@ -3,6 +3,7 @@ import 'package:cartmates/src/features/auth/presentation/screens/login_screen.da
 import 'package:cartmates/src/features/auth/presentation/screens/signup_screen.dart';
 import 'package:cartmates/src/features/saved/presentation/screens/saved_page.dart';
 import 'package:cartmates/src/features/cart/presentation/screens/cart_page.dart';
+import 'package:cartmates/src/features/cart/presentation/screens/manage_order_page.dart';
 import 'package:cartmates/src/features/cart/presentation/screens/order_status_page.dart';
 import 'package:cartmates/src/features/create/presentation/screens/create_page.dart';
 import 'package:cartmates/src/features/deals/presentation/screens/join_same_product_deal_page.dart';
@@ -65,6 +66,13 @@ final GoRouter appRouter = GoRouter(
                   path: 'order/:dealId',
                   name: 'cartOrder',
                   builder: (context, state) => OrderStatusPage(
+                    dealId: state.pathParameters['dealId']!,
+                  ),
+                ),
+                GoRoute(
+                  path: 'manage/:dealId',
+                  name: 'manageOrder',
+                  builder: (context, state) => ManageOrderPage(
                     dealId: state.pathParameters['dealId']!,
                   ),
                 ),

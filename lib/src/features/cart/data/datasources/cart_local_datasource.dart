@@ -454,6 +454,14 @@ class CartLocalDataSourceImpl implements CartLocalDataSource {
       joinedAt: DateTime.now().subtract(const Duration(days: 2)),
       progressCurrent: 8,
       progressGoal: 10,
+      timelineEvents: [
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.joined,
+          title: 'Deal Created',
+          description: 'You created the IKEA Dorm Run group buy.',
+          timestamp: DateTime.now().subtract(const Duration(days: 2)),
+        ),
+      ],
     ),
     // 11. Active - ready (host can place order now)
     CartItemModel(
@@ -470,6 +478,20 @@ class CartLocalDataSourceImpl implements CartLocalDataSource {
       joinedAt: DateTime.now().subtract(const Duration(days: 5)),
       progressCurrent: 20,
       progressGoal: 20,
+      timelineEvents: [
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.joined,
+          title: 'Deal Created',
+          description: 'You created the Bulk Protein Powder group buy.',
+          timestamp: DateTime.now().subtract(const Duration(days: 5)),
+        ),
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.dealReady,
+          title: 'Goal Reached',
+          description: 'All 20 members have confirmed.',
+          timestamp: DateTime.now().subtract(const Duration(hours: 6)),
+        ),
+      ],
     ),
     // 12. Active - expired (host: cancel or order with less)
     CartItemModel(
@@ -502,6 +524,32 @@ class CartLocalDataSourceImpl implements CartLocalDataSource {
       joinedAt: DateTime.now().subtract(const Duration(days: 3)),
       trackingNumber: 'TRK987654321',
       trackingUrl: 'https://track.example.com/TRK987654321',
+      timelineEvents: [
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.joined,
+          title: 'Deal Created',
+          description: 'You created the Dorm Essentials Kit group buy.',
+          timestamp: DateTime.now().subtract(const Duration(days: 3)),
+        ),
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.dealReady,
+          title: 'Goal Reached',
+          description: 'All members confirmed.',
+          timestamp: DateTime.now().subtract(const Duration(days: 1)),
+        ),
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.dealOrdered,
+          title: 'Order Placed',
+          description: 'Bulk order placed with vendor.',
+          timestamp: DateTime.now().subtract(const Duration(hours: 18)),
+        ),
+        OrderTimelineEvent(
+          type: OrderTimelineEventType.shipped,
+          title: 'Order Shipped',
+          description: 'Vendor dispatched the order.',
+          timestamp: DateTime.now().subtract(const Duration(hours: 6)),
+        ),
+      ],
     ),
     // 14. Active - arrived (host: distribute, mark received)
     CartItemModel(

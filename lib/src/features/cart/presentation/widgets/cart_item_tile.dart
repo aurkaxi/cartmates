@@ -13,7 +13,13 @@ class CartItemTile extends ConsumerWidget {
     final tt = context.textTheme;
 
     return InkWell(
-      onTap: () => context.push(AppRoutes.cartOrderPath(item.dealId)),
+      onTap: () {
+        if (item.tab == CartTab.active) {
+          context.push(AppRoutes.manageOrderPath(item.dealId));
+        } else {
+          context.push(AppRoutes.cartOrderPath(item.dealId));
+        }
+      },
       borderRadius: BorderRadius.circular(12.r),
       child: Container(
         height: 72.h,
