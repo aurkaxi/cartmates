@@ -582,6 +582,7 @@ class _LogoutButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = context.theme.colorScheme;
+    final tt = context.theme.textTheme;
 
     return AppButton(
       label: 'Log Out',
@@ -589,15 +590,17 @@ class _LogoutButton extends StatelessWidget {
         final confirmed = await showDialog<bool>(
           context: context,
           builder: (ctx) => AlertDialog(
-            title: const Text('Log Out'),
-            content: const Text('Are you sure you want to log out?'),
+            title: Text('Log Out',
+                style: tt.titleMedium?.copyWith(color: cs.onSurface)),
+            content: Text('Are you sure you want to log out?',
+                style: tt.bodyMedium?.copyWith(color: cs.onSurfaceVariant)),
             shape: const RoundedRectangleBorder(
               borderRadius: AppBorders.dialog,
             ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(ctx, false),
-                child: const Text('Cancel'),
+                child: Text('Cancel', style: TextStyle(color: cs.onSurface)),
               ),
               TextButton(
                 onPressed: () => Navigator.pop(ctx, true),
