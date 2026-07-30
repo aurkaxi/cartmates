@@ -206,14 +206,6 @@ class _SuggestedSectionState extends State<_SuggestedSection> {
         .toList();
   }
 
-  String get _selectedCategoryName {
-    if (_selectedCategoryId == '1') return 'All';
-    return _sampleCategories
-        .firstWhere((c) => c.id == _selectedCategoryId,
-            orElse: () => _sampleCategories.first)
-        .name;
-  }
-
   void _showCategorySheet() {
     showModalBottomSheet<void>(
       context: context,
@@ -224,39 +216,59 @@ class _SuggestedSectionState extends State<_SuggestedSection> {
         final cs = ctx.theme.colorScheme;
         final tt = ctx.theme.textTheme;
         return SafeArea(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(height: AppSpacing.sm.h),
-              Container(
-                width: 40.r,
-                height: 4.r,
-                decoration: BoxDecoration(
-                  color: cs.outlineVariant,
-                  borderRadius: AppBorders.full,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(ctx).size.height * 0.6,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(height: AppSpacing.sm.h),
+                Container(
+                  width: 40.r,
+                  height: 4.r,
+                  decoration: BoxDecoration(
+                    color: cs.outlineVariant,
+                    borderRadius: AppBorders.full,
+                  ),
                 ),
-              ),
-              SizedBox(height: AppSpacing.md.h),
-              Text(
-                'Select Category',
-                style: tt.titleMedium?.copyWith(fontWeight: FontWeight.w600),
-              ),
-              SizedBox(height: AppSpacing.md.h),
-              ..._sampleCategories.map((cat) {
-                final isSelected = cat.id == _selectedCategoryId;
-                return ListTile(
-                  title: Text(cat.name),
-                  trailing: isSelected
-                      ? Icon(Icons.check_rounded, color: cs.primary, size: 20.r)
-                      : null,
-                  onTap: () {
-                    setState(() => _selectedCategoryId = cat.id);
-                    Navigator.pop(ctx);
-                  },
-                );
-              }),
-              SizedBox(height: AppSpacing.md.h),
-            ],
+                SizedBox(height: AppSpacing.md.h),
+                Text(
+                  'Select Category',
+                  style: tt.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: cs.onSurface,
+                  ),
+                ),
+                SizedBox(height: AppSpacing.sm.h),
+                Flexible(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: _sampleCategories.length,
+                    itemBuilder: (ctx, index) {
+                      final cat = _sampleCategories[index];
+                      final isSelected = cat.id == _selectedCategoryId;
+                      return ListTile(
+                        title: Text(
+                          cat.name,
+                          style: tt.bodyLarge?.copyWith(
+                            color: cs.onSurface,
+                          ),
+                        ),
+                        trailing: isSelected
+                            ? Icon(Icons.check_rounded,
+                                color: cs.primary, size: 20.r)
+                            : null,
+                        onTap: () {
+                          setState(() => _selectedCategoryId = cat.id);
+                          Navigator.pop(ctx);
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },
@@ -268,6 +280,8 @@ class _SuggestedSectionState extends State<_SuggestedSection> {
     final cs = context.theme.colorScheme;
     final tt = context.theme.textTheme;
     final filteredDeals = _filteredDeals;
+    final topCategories =
+        _sampleCategories.where((c) => c.id != '1').take(5).toList();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -276,34 +290,49 @@ class _SuggestedSectionState extends State<_SuggestedSection> {
         SizedBox(height: AppSpacing.sm.h),
         SizedBox(
           height: 40.h,
-          child: ListView(
+          child: ListView.separated(
             scrollDirection: Axis.horizontal,
             padding: EdgeInsets.symmetric(horizontal: AppSpacing.md.w),
-            children: [
-              ChoiceChip(
-                label: Text(_selectedCategoryName),
-                selected: true,
-                onSelected: (_) {},
-                labelStyle: tt.labelLarge?.copyWith(color: cs.onPrimary),
+            itemCount: topCategories.length + 1,
+            separatorBuilder: (_, __) => SizedBox(width: 12.r),
+            itemBuilder: (context, index) {
+              if (index == topCategories.length) {
+                return ActionChip(
+                  avatar:
+                      Icon(Icons.tune_rounded, size: 18.r, color: cs.primary),
+                  label: const Text('More'),
+                  onPressed: _showCategorySheet,
+                  labelStyle: tt.labelLarge?.copyWith(color: cs.primary),
+                  backgroundColor: cs.surface,
+                  side: BorderSide(color: cs.primary),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: AppBorders.sm,
+                  ),
+                );
+              }
+              final category = topCategories[index];
+              final isSelected = category.id == _selectedCategoryId;
+
+              return ChoiceChip(
+                label: Text(category.name),
+                selected: isSelected,
+                onSelected: (_) {
+                  setState(() => _selectedCategoryId = category.id);
+                },
+                labelStyle: tt.labelLarge?.copyWith(
+                  color: isSelected ? cs.onPrimary : cs.onSurface,
+                ),
                 selectedColor: cs.primary,
+                backgroundColor: cs.surface,
+                side: BorderSide(
+                  color: isSelected ? cs.primary : cs.outline,
+                ),
                 shape: const RoundedRectangleBorder(
                   borderRadius: AppBorders.sm,
                 ),
                 showCheckmark: false,
-              ),
-              SizedBox(width: AppSpacing.sm.w),
-              ActionChip(
-                avatar: Icon(Icons.tune_rounded, size: 18.r, color: cs.primary),
-                label: const Text('Browse'),
-                onPressed: _showCategorySheet,
-                labelStyle: tt.labelLarge?.copyWith(color: cs.primary),
-                backgroundColor: cs.surface,
-                side: BorderSide(color: cs.primary),
-                shape: const RoundedRectangleBorder(
-                  borderRadius: AppBorders.sm,
-                ),
-              ),
-            ],
+              );
+            },
           ),
         ),
         SizedBox(height: AppSpacing.md.h),
@@ -357,10 +386,11 @@ final _sampleCategories = [
 ];
 
 final _sampleClosingSoonDeals = [
-  const SameProductDeal(
+  SameProductDeal(
     id: 'cs1',
     name: 'Logitech M330 Silent Wireless Mouse',
-    imageUrl: 'https://picsum.photos/seed/mouse330/400/300',
+    imageUrl:
+        'https://resource.logitech.com/c_fill,q_auto,f_auto,dpr_1.0/w_400,c_limit,ar_4:3/content/dam/logitech/en/products/mice/m330-wireless-silent-mouse/2024-update/gallery/m330-wireless-mouse-top-view-black-gallery-01.png',
     currentPrice: 18.99,
     originalPrice: 29.99,
     qtyCurrent: 14,
@@ -371,10 +401,11 @@ final _sampleClosingSoonDeals = [
     savingsPercentage: 37,
     categoryTags: ['Electronics'],
   ),
-  const SameProductDeal(
+  SameProductDeal(
     id: 'cs2',
     name: 'USB-C Hub 7-in-1 Adapter',
-    imageUrl: 'https://picsum.photos/seed/usbc/400/300',
+    imageUrl:
+        'https://images.unsplash.com/photo-1625842268584-8f3296236761?w=400&h=300&fit=crop',
     currentPrice: 14.50,
     originalPrice: 29.99,
     qtyCurrent: 8,
@@ -385,10 +416,11 @@ final _sampleClosingSoonDeals = [
     savingsPercentage: 52,
     categoryTags: ['Electronics'],
   ),
-  const SameProductDeal(
+  SameProductDeal(
     id: 'cs3',
     name: 'A4 Mesh Document File Organizer (10 Pack)',
-    imageUrl: 'https://picsum.photos/seed/fileorganizer/400/300',
+    imageUrl:
+        'https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=400&h=300&fit=crop',
     currentPrice: 12,
     originalPrice: 22,
     qtyCurrent: 6,
@@ -402,10 +434,11 @@ final _sampleClosingSoonDeals = [
 ];
 
 final _sampleMaxSavingDeals = [
-  const SameProductDeal(
+  SameProductDeal(
     id: 'ms1',
     name: 'Arduino Uno R3 Starter Kit',
-    imageUrl: 'https://picsum.photos/seed/arduinokit/400/300',
+    imageUrl:
+        'https://images.unsplash.com/photo-1607555466198-e01e2a30e035?w=400&h=300&fit=crop',
     currentPrice: 19.99,
     originalPrice: 44.99,
     qtyCurrent: 22,
@@ -415,10 +448,11 @@ final _sampleMaxSavingDeals = [
     savingsPercentage: 56,
     categoryTags: ['Lab Equipment', 'Electronics'],
   ),
-  const SameProductDeal(
+  SameProductDeal(
     id: 'ms2',
     name: 'Breadboard + Jumper Wires Bundle',
-    imageUrl: 'https://picsum.photos/seed/breadboard/400/300',
+    imageUrl:
+        'https://images.unsplash.com/photo-1616763355548-1b11cea702ff?w=400&h=300&fit=crop',
     currentPrice: 5.99,
     originalPrice: 14.99,
     qtyCurrent: 35,
@@ -428,10 +462,11 @@ final _sampleMaxSavingDeals = [
     savingsPercentage: 60,
     categoryTags: ['Lab Equipment'],
   ),
-  const SameProductDeal(
+  SameProductDeal(
     id: 'ms3',
     name: 'Mechanical Keyboard Switch Sampler (14 switches)',
-    imageUrl: 'https://picsum.photos/seed/switchsampler/400/300',
+    imageUrl:
+        'https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=400&h=300&fit=crop',
     currentPrice: 8.99,
     originalPrice: 19.99,
     qtyCurrent: 18,
@@ -444,10 +479,11 @@ final _sampleMaxSavingDeals = [
 ];
 
 final _sampleSuggestedDeals = [
-  const SameProductDeal(
+  SameProductDeal(
     id: 'sg1',
     name: 'USB Flash Drive 64GB (10 Pack)',
-    imageUrl: 'https://picsum.photos/seed/usbdrive64/400/400',
+    imageUrl:
+        'https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=400&h=400&fit=crop',
     currentPrice: 28,
     originalPrice: 59.99,
     qtyCurrent: 10,
@@ -456,10 +492,11 @@ final _sampleSuggestedDeals = [
     savingsPercentage: 53,
     categoryTags: ['Electronics'],
   ),
-  const SameProductDeal(
+  SameProductDeal(
     id: 'sg2',
     name: 'Pilot G2 Gel Pen (12 Pack)',
-    imageUrl: 'https://picsum.photos/seed/pilotg2/400/400',
+    imageUrl:
+        'https://images.unsplash.com/photo-1585336261022-680e295ce3fe?w=400&h=400&fit=crop',
     currentPrice: 9.99,
     originalPrice: 21.60,
     qtyCurrent: 18,
@@ -468,10 +505,11 @@ final _sampleSuggestedDeals = [
     savingsPercentage: 54,
     categoryTags: ['Stationery'],
   ),
-  const SameProductDeal(
+  SameProductDeal(
     id: 'sg3',
     name: 'USB Desk Fan 12V for Lab Bench',
-    imageUrl: 'https://picsum.photos/seed/usbfan/400/400',
+    imageUrl:
+        'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=400&fit=crop',
     currentPrice: 7.50,
     originalPrice: 15.99,
     qtyCurrent: 5,
@@ -480,10 +518,11 @@ final _sampleSuggestedDeals = [
     savingsPercentage: 53,
     categoryTags: ['Electronics', 'Accessories'],
   ),
-  const SameProductDeal(
+  SameProductDeal(
     id: 'sg4',
     name: 'Scientific Calculator Casio FX-991EX',
-    imageUrl: 'https://picsum.photos/seed/casio991/400/400',
+    imageUrl:
+        'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&h=400&fit=crop',
     currentPrice: 16.99,
     originalPrice: 34.99,
     qtyCurrent: 8,
@@ -492,10 +531,11 @@ final _sampleSuggestedDeals = [
     savingsPercentage: 51,
     categoryTags: ['Electronics', 'Lab Equipment'],
   ),
-  const SameProductDeal(
+  SameProductDeal(
     id: 'sg5',
     name: 'Mechanical Pencil 0.5mm + Leads Bundle',
-    imageUrl: 'https://picsum.photos/seed/mecpencil/400/400',
+    imageUrl:
+        'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=400&h=400&fit=crop',
     currentPrice: 4.99,
     originalPrice: 11.99,
     qtyCurrent: 22,
@@ -504,10 +544,11 @@ final _sampleSuggestedDeals = [
     savingsPercentage: 58,
     categoryTags: ['Stationery'],
   ),
-  const SameProductDeal(
+  SameProductDeal(
     id: 'sg6',
     name: 'LED Desk Lamp USB Rechargeable',
-    imageUrl: 'https://picsum.photos/seed/ledlamp/400/400',
+    imageUrl:
+        'https://images.unsplash.com/photo-1507473885765-e6ed057ab6fe?w=400&h=400&fit=crop',
     currentPrice: 11.99,
     originalPrice: 24.99,
     qtyCurrent: 7,
@@ -516,10 +557,11 @@ final _sampleSuggestedDeals = [
     savingsPercentage: 52,
     categoryTags: ['Electronics', 'Accessories'],
   ),
-  const SameProductDeal(
+  SameProductDeal(
     id: 'sg7',
     name: 'Soldering Iron Kit 60W with Stand',
-    imageUrl: 'https://picsum.photos/seed/soldering/400/400',
+    imageUrl:
+        'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=400&h=400&fit=crop',
     currentPrice: 13.50,
     originalPrice: 29.99,
     qtyCurrent: 4,
@@ -528,10 +570,11 @@ final _sampleSuggestedDeals = [
     savingsPercentage: 55,
     categoryTags: ['Lab Equipment'],
   ),
-  const SameProductDeal(
+  SameProductDeal(
     id: 'sg8',
     name: 'Whiteboard Markers (8 Colors, 24 Pack)',
-    imageUrl: 'https://picsum.photos/seed/wbmarkers/400/400',
+    imageUrl:
+        'https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?w=400&h=400&fit=crop',
     currentPrice: 8.99,
     originalPrice: 18.99,
     qtyCurrent: 15,
