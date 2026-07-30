@@ -13,11 +13,11 @@ class CartTabBar extends ConsumerWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       child: Container(
-        height: 40.h,
+        height: 44.h,
+        padding: EdgeInsets.all(4.r),
         decoration: BoxDecoration(
           color: cs.surfaceContainerHighest,
-          borderRadius: BorderRadius.circular(20.r),
-          border: Border.all(color: cs.outlineVariant, width: 1),
+          borderRadius: BorderRadius.circular(22.r),
         ),
         child: Row(
           children: [
@@ -67,13 +67,22 @@ class _TabButton extends StatelessWidget {
         curve: Curves.easeInOut,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: isSelected ? cs.secondaryContainer : Colors.transparent,
-          borderRadius: BorderRadius.circular(20.r),
+          color: isSelected ? cs.primary : Colors.transparent,
+          borderRadius: BorderRadius.circular(18.r),
+          boxShadow: isSelected
+              ? [
+                  BoxShadow(
+                    color: cs.primary.withValues(alpha: 0.3),
+                    blurRadius: 4,
+                    offset: const Offset(0, 2),
+                  ),
+                ]
+              : null,
         ),
         child: Text(
           label,
           style: tt.labelLarge?.copyWith(
-            color: isSelected ? cs.onSecondaryContainer : cs.onSurfaceVariant,
+            color: isSelected ? cs.onPrimary : cs.onSurfaceVariant,
             fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
           ),
         ),
