@@ -377,7 +377,7 @@ final _sampleCategories = [
 ];
 
 final _sampleClosingSoonDeals = [
-  SameProductDeal(
+  const SameProductDeal(
     id: 'cs1',
     name: 'Logitech M330 Silent Wireless Mouse',
     imageUrl:
@@ -392,7 +392,7 @@ final _sampleClosingSoonDeals = [
     savingsPercentage: 37,
     categoryTags: ['Electronics'],
   ),
-  SameProductDeal(
+  const SameProductDeal(
     id: 'cs2',
     name: 'USB-C Hub 7-in-1 Adapter',
     imageUrl:
@@ -407,7 +407,7 @@ final _sampleClosingSoonDeals = [
     savingsPercentage: 52,
     categoryTags: ['Electronics'],
   ),
-  SameProductDeal(
+  const SameProductDeal(
     id: 'cs3',
     name: 'A4 Mesh Document File Organizer (10 Pack)',
     imageUrl:
@@ -425,7 +425,7 @@ final _sampleClosingSoonDeals = [
 ];
 
 final _sampleMaxSavingDeals = [
-  SameProductDeal(
+  const SameProductDeal(
     id: 'ms1',
     name: 'Arduino Uno R3 Starter Kit',
     imageUrl:
@@ -439,7 +439,7 @@ final _sampleMaxSavingDeals = [
     savingsPercentage: 56,
     categoryTags: ['Lab Equipment', 'Electronics'],
   ),
-  SameProductDeal(
+  const SameProductDeal(
     id: 'ms2',
     name: 'Breadboard + Jumper Wires Bundle',
     imageUrl:
@@ -453,7 +453,7 @@ final _sampleMaxSavingDeals = [
     savingsPercentage: 60,
     categoryTags: ['Lab Equipment'],
   ),
-  SameProductDeal(
+  const SameProductDeal(
     id: 'ms3',
     name: 'Mechanical Keyboard Switch Sampler (14 switches)',
     imageUrl:
@@ -470,7 +470,7 @@ final _sampleMaxSavingDeals = [
 ];
 
 final _sampleSuggestedDeals = [
-  SameProductDeal(
+  const SameProductDeal(
     id: 'sg1',
     name: 'USB Flash Drive 64GB (10 Pack)',
     imageUrl:
@@ -483,7 +483,7 @@ final _sampleSuggestedDeals = [
     savingsPercentage: 53,
     categoryTags: ['Electronics'],
   ),
-  SameProductDeal(
+  const SameProductDeal(
     id: 'sg2',
     name: 'Pilot G2 Gel Pen (12 Pack)',
     imageUrl:
@@ -496,7 +496,7 @@ final _sampleSuggestedDeals = [
     savingsPercentage: 54,
     categoryTags: ['Stationery'],
   ),
-  SameProductDeal(
+  const SameProductDeal(
     id: 'sg3',
     name: 'USB Desk Fan 12V for Lab Bench',
     imageUrl:
@@ -509,7 +509,7 @@ final _sampleSuggestedDeals = [
     savingsPercentage: 53,
     categoryTags: ['Electronics', 'Accessories'],
   ),
-  SameProductDeal(
+  const SameProductDeal(
     id: 'sg4',
     name: 'Scientific Calculator Casio FX-991EX',
     imageUrl:
@@ -522,7 +522,7 @@ final _sampleSuggestedDeals = [
     savingsPercentage: 51,
     categoryTags: ['Electronics', 'Lab Equipment'],
   ),
-  SameProductDeal(
+  const SameProductDeal(
     id: 'sg5',
     name: 'Mechanical Pencil 0.5mm + Leads Bundle',
     imageUrl:
@@ -535,7 +535,7 @@ final _sampleSuggestedDeals = [
     savingsPercentage: 58,
     categoryTags: ['Stationery'],
   ),
-  SameProductDeal(
+  const SameProductDeal(
     id: 'sg6',
     name: 'LED Desk Lamp USB Rechargeable',
     imageUrl:
@@ -548,7 +548,7 @@ final _sampleSuggestedDeals = [
     savingsPercentage: 52,
     categoryTags: ['Electronics', 'Accessories'],
   ),
-  SameProductDeal(
+  const SameProductDeal(
     id: 'sg7',
     name: 'Soldering Iron Kit 60W with Stand',
     imageUrl:
@@ -561,7 +561,7 @@ final _sampleSuggestedDeals = [
     savingsPercentage: 55,
     categoryTags: ['Lab Equipment'],
   ),
-  SameProductDeal(
+  const SameProductDeal(
     id: 'sg8',
     name: 'Whiteboard Markers (8 Colors, 24 Pack)',
     imageUrl:
