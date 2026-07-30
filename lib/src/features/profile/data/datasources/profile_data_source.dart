@@ -18,7 +18,7 @@ class ProfileDataSource {
 
   static const _initialProfile = UserProfileModel(
     id: '1',
-    email: 'tanvir@bu.ac.bd',
+    email: 'tanvir@mec.ac.bd',
     name: 'Tanvir Hasan',
     photoUrl: 'https://picsum.photos/seed/tanvir/200/200',
     bkashNumber: '01712345678',
@@ -61,7 +61,7 @@ class ProfileDataSource {
     '2': const PublicUserProfile(
       profile: UserProfileModel(
         id: '2',
-        email: 'rifat@bu.ac.bd',
+        email: 'rifat@mec.ac.bd',
         name: 'Rifat Ahmed',
         photoUrl: 'https://picsum.photos/seed/rifat/200/200',
         bkashNumber: '01812345678',
@@ -120,7 +120,7 @@ class ProfileDataSource {
     '3': const PublicUserProfile(
       profile: UserProfileModel(
         id: '3',
-        email: 'nafisa@bu.ac.bd',
+        email: 'nafisa@mec.ac.bd',
         name: 'Nafisa Khan',
         photoUrl: 'https://picsum.photos/seed/nafisa/200/200',
         bkashNumber: '01912345678',
