@@ -223,15 +223,6 @@ class _SuggestedSectionState extends State<_SuggestedSection> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                SizedBox(height: AppSpacing.sm.h),
-                Container(
-                  width: 40.r,
-                  height: 4.r,
-                  decoration: BoxDecoration(
-                    color: cs.outlineVariant,
-                    borderRadius: AppBorders.full,
-                  ),
-                ),
                 SizedBox(height: AppSpacing.md.h),
                 Text(
                   'Select Category',

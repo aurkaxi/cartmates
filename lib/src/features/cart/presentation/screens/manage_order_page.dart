@@ -113,15 +113,6 @@ class _ManageOrderPageState extends ConsumerState<ManageOrderPage> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Container(
-              width: 40.w,
-              height: 4.h,
-              margin: EdgeInsets.only(top: 12.h),
-              decoration: BoxDecoration(
-                color: cs.outlineVariant,
-                borderRadius: BorderRadius.circular(2.r),
-              ),
-            ),
             SizedBox(height: 16.h),
             Text(
               member.name,

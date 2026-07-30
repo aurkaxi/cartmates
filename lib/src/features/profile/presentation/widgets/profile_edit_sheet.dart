@@ -75,17 +75,6 @@ class _ProfileEditSheetState extends ConsumerState<ProfileEditSheet> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(
-              child: Container(
-                width: 40.r,
-                height: 4.r,
-                decoration: BoxDecoration(
-                  color: cs.outlineVariant,
-                  borderRadius: AppBorders.full,
-                ),
-              ),
-            ),
-            SizedBox(height: AppSpacing.md.h),
             Text(
               _title,
               style: tt.titleMedium?.copyWith(
