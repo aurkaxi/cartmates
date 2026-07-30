@@ -1,5 +1,5 @@
-import 'package:cartmates/src/imports/imports.dart';
 import 'package:cartmates/src/features/saved/presentation/providers/saved_deals_provider.dart';
+import 'package:cartmates/src/imports/imports.dart';
 
 import '../../domain/entities/deal.dart';
 import '../../domain/entities/same_product_deal_detail.dart';
@@ -1548,7 +1548,8 @@ SameProductDealDetail? _getMockSameProductDetail(String dealId) {
     deal: const SameProductDeal(
       id: '1',
       name: 'Sony WH-1000XM5 Noise Canceling Headphones - Bulk Order',
-      imageUrl: 'https://picsum.photos/seed/sonyxm5/800/600',
+      imageUrl:
+          'https://www.sony-asia.com/image/6145c1d32e6ac8e63a46c912dc33c5bb?fmt=pjpeg&wid=330&bgcolor=FFFFFF&bgc=FFFFFF',
       currentPrice: 249,
       originalPrice: 399,
       qtyCurrent: 15,

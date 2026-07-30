@@ -396,7 +396,7 @@ final _sampleClosingSoonDeals = [
     id: 'cs2',
     name: 'USB-C Hub 7-in-1 Adapter',
     imageUrl:
-        'https://images.unsplash.com/photo-1625842268584-8f3296236761?w=400&h=300&fit=crop',
+        'https://www.startech.com.bd/image/cache/catalog/hub/ugreen/cm512/cm512-500x500.webp',
     currentPrice: 14.50,
     originalPrice: 29.99,
     qtyCurrent: 8,
@@ -411,7 +411,7 @@ final _sampleClosingSoonDeals = [
     id: 'cs3',
     name: 'A4 Mesh Document File Organizer (10 Pack)',
     imageUrl:
-        'https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=400&h=300&fit=crop',
+        'https://img-eu.kwcdn.com/local-goods-img/1fad18d330/444658ad-8f35-40a7-9215-503d66728681_1600x1600.jpeg.format.jpg?imageMogr2/auto-orient%7CimageView2/2/w/800/q/70/format/webp',
     currentPrice: 12,
     originalPrice: 22,
     qtyCurrent: 6,
@@ -429,7 +429,7 @@ final _sampleMaxSavingDeals = [
     id: 'ms1',
     name: 'Arduino Uno R3 Starter Kit',
     imageUrl:
-        'https://images.unsplash.com/photo-1607555466198-e01e2a30e035?w=400&h=300&fit=crop',
+        'https://cdn.roboticsbd.com/4141-large_default/beginners-kit-arduino-uno-r3-robotics-bangladesh.jpg',
     currentPrice: 19.99,
     originalPrice: 44.99,
     qtyCurrent: 22,
@@ -443,7 +443,7 @@ final _sampleMaxSavingDeals = [
     id: 'ms2',
     name: 'Breadboard + Jumper Wires Bundle',
     imageUrl:
-        'https://images.unsplash.com/photo-1616763355548-1b11cea702ff?w=400&h=300&fit=crop',
+        'https://robotechshop.com/wp-content/uploads/2016/03/Jumper-Wire-Set_01.jpg.webp',
     currentPrice: 5.99,
     originalPrice: 14.99,
     qtyCurrent: 35,
@@ -457,7 +457,7 @@ final _sampleMaxSavingDeals = [
     id: 'ms3',
     name: 'Mechanical Keyboard Switch Sampler (14 switches)',
     imageUrl:
-        'https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=400&h=300&fit=crop',
+        'https://images.squarespace-cdn.com/content/v1/5e5af256556661723b861bd1/7cd3e956-367a-4b22-a698-183ba238e223/Rattle9.jpg',
     currentPrice: 8.99,
     originalPrice: 19.99,
     qtyCurrent: 18,
@@ -474,7 +474,7 @@ final _sampleSuggestedDeals = [
     id: 'sg1',
     name: 'USB Flash Drive 64GB (10 Pack)',
     imageUrl:
-        'https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=400&h=400&fit=crop',
+        'https://m.media-amazon.com/images/I/81IEDqEE-3L._AC_UF894,1000_QL80_.jpg',
     currentPrice: 28,
     originalPrice: 59.99,
     qtyCurrent: 10,
@@ -486,8 +486,7 @@ final _sampleSuggestedDeals = [
   const SameProductDeal(
     id: 'sg2',
     name: 'Pilot G2 Gel Pen (12 Pack)',
-    imageUrl:
-        'https://images.unsplash.com/photo-1585336261022-680e295ce3fe?w=400&h=400&fit=crop',
+    imageUrl: 'https://m.media-amazon.com/images/I/713GdY+wh4L.jpg',
     currentPrice: 9.99,
     originalPrice: 21.60,
     qtyCurrent: 18,
@@ -500,7 +499,7 @@ final _sampleSuggestedDeals = [
     id: 'sg3',
     name: 'USB Desk Fan 12V for Lab Bench',
     imageUrl:
-        'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=400&fit=crop',
+        'https://ae-pic-a1.aliexpress-media.com/kf/S36d5d63203e34b8ba1889cc9b32d4bf58.jpg',
     currentPrice: 7.50,
     originalPrice: 15.99,
     qtyCurrent: 5,
@@ -513,7 +512,7 @@ final _sampleSuggestedDeals = [
     id: 'sg4',
     name: 'Scientific Calculator Casio FX-991EX',
     imageUrl:
-        'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&h=400&fit=crop',
+        'https://www.perennial.com.bd/image/cache/catalog/Gadget/Calculator/cc-500x500.jpg',
     currentPrice: 16.99,
     originalPrice: 34.99,
     qtyCurrent: 8,
@@ -526,7 +525,7 @@ final _sampleSuggestedDeals = [
     id: 'sg5',
     name: 'Mechanical Pencil 0.5mm + Leads Bundle',
     imageUrl:
-        'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=400&h=400&fit=crop',
+        'https://i5.walmartimages.com/seo/Nicpro-0-5mm-Mechanical-Pencil-Set-with-Case-3Pcs-MP1000-Metal-Artist-Pencil-8-Tube-HB-Lead-Refills-0-5mm-3-Erasers-9-Eraser-Refills_c574cda8-ce68-4557-86b1-70de8097241c.ab273f4695303be04b453a3e4d604fef.jpeg?odnHeight=768&odnWidth=768&odnBg=FFFFFF',
     currentPrice: 4.99,
     originalPrice: 11.99,
     qtyCurrent: 22,
@@ -539,7 +538,7 @@ final _sampleSuggestedDeals = [
     id: 'sg6',
     name: 'LED Desk Lamp USB Rechargeable',
     imageUrl:
-        'https://images.unsplash.com/photo-1507473885765-e6ed057ab6fe?w=400&h=400&fit=crop',
+        'https://pictures-bangladesh.jijistatic.com/6593365_NjIwLTYyMC0zOGMyNDgxZGI2LTE.webp',
     currentPrice: 11.99,
     originalPrice: 24.99,
     qtyCurrent: 7,
@@ -552,7 +551,7 @@ final _sampleSuggestedDeals = [
     id: 'sg7',
     name: 'Soldering Iron Kit 60W with Stand',
     imageUrl:
-        'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=400&h=400&fit=crop',
+        'https://m.media-amazon.com/images/I/81FqWOAb2NL._AC_UF894,1000_QL80_.jpg',
     currentPrice: 13.50,
     originalPrice: 29.99,
     qtyCurrent: 4,
@@ -565,7 +564,7 @@ final _sampleSuggestedDeals = [
     id: 'sg8',
     name: 'Whiteboard Markers (8 Colors, 24 Pack)',
     imageUrl:
-        'https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?w=400&h=400&fit=crop',
+        'https://img.kwcdn.com/product/fancy/3faa2181-3f3e-4c02-a067-8a39c3c5ddcc.jpg?imageMogr2/auto-orient%7CimageView2/2/w/800/q/70/format/webp',
     currentPrice: 8.99,
     originalPrice: 18.99,
     qtyCurrent: 15,
