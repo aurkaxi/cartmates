@@ -13,7 +13,7 @@ export '../features/auth/presentation/screens/login_screen.dart';
 export '../features/auth/presentation/screens/signup_screen.dart';
 export '../features/saved/presentation/screens/saved_page.dart';
 export '../features/cart/presentation/screens/cart_page.dart';
-export '../features/create/presentation/screens/create_page.dart';
+export '../features/create/presentation/screens/create_same_product_deal_page.dart';
 export '../features/deals/presentation/screens/deals_page.dart';
 export '../features/onboarding/presentation/screens/onboarding_page.dart';
 export '../features/profile/presentation/screens/profile_page.dart';

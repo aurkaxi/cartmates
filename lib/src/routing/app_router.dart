@@ -5,7 +5,7 @@ import 'package:cartmates/src/features/saved/presentation/screens/saved_page.dar
 import 'package:cartmates/src/features/cart/presentation/screens/cart_page.dart';
 import 'package:cartmates/src/features/cart/presentation/screens/manage_order_page.dart';
 import 'package:cartmates/src/features/cart/presentation/screens/order_status_page.dart';
-import 'package:cartmates/src/features/create/presentation/screens/create_page.dart';
+import 'package:cartmates/src/features/create/presentation/screens/create_same_product_deal_page.dart';
 import 'package:cartmates/src/features/deals/presentation/screens/join_same_product_deal_page.dart';
 import 'package:cartmates/src/features/deals/presentation/screens/same_product_deal_detail_page.dart';
 import 'package:cartmates/src/features/deals/presentation/screens/deals_page.dart';
@@ -51,7 +51,7 @@ final GoRouter appRouter = GoRouter(
             GoRoute(
               path: AppRoutes.create,
               name: 'create',
-              builder: (context, state) => const CreatePage(),
+              builder: (context, state) => const CreateSameProductDealPage(),
             ),
           ],
         ),
