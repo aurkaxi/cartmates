@@ -12,6 +12,7 @@ class SameProductDeal extends Equatable {
   final int holdQty;
   final Duration? timeRemaining;
   final double savingsPercentage;
+  final List<String> categoryTags;
 
   const SameProductDeal({
     required this.id,
@@ -25,6 +26,7 @@ class SameProductDeal extends Equatable {
     this.holdQty = 0,
     this.timeRemaining,
     this.savingsPercentage = 0,
+    this.categoryTags = const [],
   });
 
   double get progress => qtyGoal > 0 ? qtyCurrent / qtyGoal : 0;
@@ -59,5 +61,6 @@ class SameProductDeal extends Equatable {
         holdQty,
         timeRemaining,
         savingsPercentage,
+        categoryTags,
       ];
 }

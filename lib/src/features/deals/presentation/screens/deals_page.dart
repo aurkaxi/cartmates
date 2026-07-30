@@ -90,13 +90,9 @@ class _SearchBar extends StatelessWidget {
 
 class _SectionHeader extends StatelessWidget {
   final String title;
-  final String? actionText;
-  final VoidCallback? onAction;
 
   const _SectionHeader({
     required this.title,
-    this.actionText,
-    this.onAction,
   });
 
   @override
@@ -106,35 +102,12 @@ class _SectionHeader extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: AppSpacing.md.w),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            title,
-            style: tt.titleMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-              color: cs.onSurface,
-            ),
-          ),
-          if (actionText != null)
-            GestureDetector(
-              onTap: onAction,
-              child: Row(
-                children: [
-                  Text(
-                    actionText!,
-                    style: tt.labelLarge?.copyWith(color: cs.primary),
-                  ),
-                  SizedBox(width: AppSpacing.xxs.w),
-                  HugeIcon(
-                    icon: HugeIcons.strokeRoundedArrowRight01,
-                    size: 16.r,
-                    color: cs.primary,
-                  ),
-                ],
-              ),
-            ),
-        ],
+      child: Text(
+        title,
+        style: tt.titleMedium?.copyWith(
+          fontWeight: FontWeight.w600,
+          color: cs.onSurface,
+        ),
       ),
     );
   }
@@ -150,11 +123,7 @@ class _ClosingSoonSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _SectionHeader(
-          title: 'Closing Soon',
-          actionText: 'View All',
-          onAction: () {},
-        ),
+        const _SectionHeader(title: 'Closing Soon'),
         SizedBox(height: AppSpacing.sm.h),
         SizedBox(
           height: 230.h,
@@ -165,16 +134,13 @@ class _ClosingSoonSection extends StatelessWidget {
             separatorBuilder: (_, __) => SizedBox(width: 16.r),
             itemBuilder: (context, index) {
               final deal = closingSoonDeals[index];
-              if (deal is SameProductDeal) {
-                return SameProductDealCard(
-                  deal: deal,
-                  variant: DealCardVariant.closingSoon,
-                  onTap: () => context.push(
-                    AppRoutes.sameProductDealDetailPath(deal.id),
-                  ),
-                );
-              }
-              return const SizedBox.shrink();
+              return SameProductDealCard(
+                deal: deal,
+                variant: DealCardVariant.closingSoon,
+                onTap: () => context.push(
+                  AppRoutes.sameProductDealDetailPath(deal.id),
+                ),
+              );
             },
           ),
         ),
@@ -193,11 +159,7 @@ class _MaxSavingSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _SectionHeader(
-          title: 'Maximum Saving',
-          actionText: 'View All',
-          onAction: () {},
-        ),
+        const _SectionHeader(title: 'Maximum Saving'),
         SizedBox(height: AppSpacing.sm.h),
         SizedBox(
           height: 230.h,
@@ -225,31 +187,149 @@ class _MaxSavingSection extends StatelessWidget {
 
 // ── Suggested For You Section ──────────────────────────────────────────────
 
-class _SuggestedSection extends StatelessWidget {
+class _SuggestedSection extends StatefulWidget {
+  @override
+  State<_SuggestedSection> createState() => _SuggestedSectionState();
+}
+
+class _SuggestedSectionState extends State<_SuggestedSection> {
+  String _selectedCategoryId = '1'; // 'All'
+
+  List<SameProductDeal> get _filteredDeals {
+    if (_selectedCategoryId == '1') return _sampleSuggestedDeals;
+    final category = _sampleCategories.firstWhere(
+      (c) => c.id == _selectedCategoryId,
+      orElse: () => _sampleCategories.first,
+    );
+    return _sampleSuggestedDeals
+        .where((d) => d.categoryTags.contains(category.name))
+        .toList();
+  }
+
+  String get _selectedCategoryName {
+    if (_selectedCategoryId == '1') return 'All';
+    return _sampleCategories
+        .firstWhere((c) => c.id == _selectedCategoryId,
+            orElse: () => _sampleCategories.first)
+        .name;
+  }
+
+  void _showCategorySheet() {
+    showModalBottomSheet<void>(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: AppBorders.bottomSheet,
+      ),
+      builder: (ctx) {
+        final cs = ctx.theme.colorScheme;
+        final tt = ctx.theme.textTheme;
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(height: AppSpacing.sm.h),
+              Container(
+                width: 40.r,
+                height: 4.r,
+                decoration: BoxDecoration(
+                  color: cs.outlineVariant,
+                  borderRadius: AppBorders.full,
+                ),
+              ),
+              SizedBox(height: AppSpacing.md.h),
+              Text(
+                'Select Category',
+                style: tt.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+              ),
+              SizedBox(height: AppSpacing.md.h),
+              ..._sampleCategories.map((cat) {
+                final isSelected = cat.id == _selectedCategoryId;
+                return ListTile(
+                  title: Text(cat.name),
+                  trailing: isSelected
+                      ? Icon(Icons.check_rounded, color: cs.primary, size: 20.r)
+                      : null,
+                  onTap: () {
+                    setState(() => _selectedCategoryId = cat.id);
+                    Navigator.pop(ctx);
+                  },
+                );
+              }),
+              SizedBox(height: AppSpacing.md.h),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final cs = context.theme.colorScheme;
+    final tt = context.theme.textTheme;
+    final filteredDeals = _filteredDeals;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const _SectionHeader(title: 'Suggested for You'),
         SizedBox(height: AppSpacing.sm.h),
-        _CategoryChips(),
+        SizedBox(
+          height: 40.h,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            padding: EdgeInsets.symmetric(horizontal: AppSpacing.md.w),
+            children: [
+              ChoiceChip(
+                label: Text(_selectedCategoryName),
+                selected: true,
+                onSelected: (_) {},
+                labelStyle: tt.labelLarge?.copyWith(color: cs.onPrimary),
+                selectedColor: cs.primary,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: AppBorders.sm,
+                ),
+                showCheckmark: false,
+              ),
+              SizedBox(width: AppSpacing.sm.w),
+              ActionChip(
+                avatar: Icon(Icons.tune_rounded, size: 18.r, color: cs.primary),
+                label: const Text('Browse'),
+                onPressed: _showCategorySheet,
+                labelStyle: tt.labelLarge?.copyWith(color: cs.primary),
+                backgroundColor: cs.surface,
+                side: BorderSide(color: cs.primary),
+                shape: const RoundedRectangleBorder(
+                  borderRadius: AppBorders.sm,
+                ),
+              ),
+            ],
+          ),
+        ),
         SizedBox(height: AppSpacing.md.h),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: AppSpacing.md.w),
-          child: GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 16.r,
-              mainAxisSpacing: 16.r,
-              mainAxisExtent: 240.h,
+        if (filteredDeals.isEmpty)
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: AppSpacing.md.w),
+            child: Text(
+              'No deals in this category yet.',
+              style: tt.bodyMedium?.copyWith(color: cs.onSurfaceVariant),
             ),
-            itemCount: _sampleSuggestedDeals.length,
-            itemBuilder: (context, index) {
-              final deal = _sampleSuggestedDeals[index];
-              if (deal is SameProductDeal) {
+          )
+        else
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: AppSpacing.md.w),
+            child: GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 16.r,
+                mainAxisSpacing: 16.r,
+                mainAxisExtent: 240.h,
+              ),
+              itemCount: filteredDeals.length,
+              itemBuilder: (context, index) {
+                final deal = filteredDeals[index];
                 return SameProductDealCard(
                   deal: deal,
                   variant: DealCardVariant.suggested,
@@ -257,54 +337,10 @@ class _SuggestedSection extends StatelessWidget {
                     AppRoutes.sameProductDealDetailPath(deal.id),
                   ),
                 );
-              }
-              return const SizedBox.shrink();
-            },
+              },
+            ),
           ),
-        ),
       ],
-    );
-  }
-}
-
-// ── Category Chips ─────────────────────────────────────────────────────────
-
-class _CategoryChips extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final cs = context.theme.colorScheme;
-    final tt = context.theme.textTheme;
-
-    return SizedBox(
-      height: 40.h,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        padding: EdgeInsets.symmetric(horizontal: AppSpacing.md.w),
-        itemCount: _sampleCategories.length,
-        separatorBuilder: (_, __) => SizedBox(width: 16.r),
-        itemBuilder: (context, index) {
-          final category = _sampleCategories[index];
-          final isSelected = index == 0;
-
-          return ChoiceChip(
-            label: Text(category.name),
-            selected: isSelected,
-            onSelected: (_) {},
-            labelStyle: tt.labelLarge?.copyWith(
-              color: isSelected ? cs.onPrimary : cs.onSurface,
-            ),
-            selectedColor: cs.primary,
-            backgroundColor: cs.surface,
-            side: BorderSide(
-              color: isSelected ? cs.primary : cs.outline,
-            ),
-            shape: const RoundedRectangleBorder(
-              borderRadius: AppBorders.sm,
-            ),
-            showCheckmark: false,
-          );
-        },
-      ),
     );
   }
 }
@@ -313,85 +349,195 @@ class _CategoryChips extends StatelessWidget {
 
 final _sampleCategories = [
   const DealCategory(id: '1', name: 'All'),
-  const DealCategory(id: '2', name: 'Groceries'),
-  const DealCategory(id: '3', name: 'Supplies'),
-  const DealCategory(id: '4', name: 'Tech Acc.'),
-  const DealCategory(id: '5', name: 'Dorm'),
+  const DealCategory(id: '2', name: 'Electronics'),
+  const DealCategory(id: '3', name: 'Stationery'),
+  const DealCategory(id: '4', name: 'Lab Equipment'),
+  const DealCategory(id: '5', name: 'Books'),
+  const DealCategory(id: '6', name: 'Accessories'),
 ];
 
-final _sampleClosingSoonDeals = <dynamic>[
+final _sampleClosingSoonDeals = [
   const SameProductDeal(
-    id: '1',
-    name: 'Bulk Organic Avocados (Box of 20)',
-    imageUrl: 'https://picsum.photos/seed/avocado/400/300',
-    currentPrice: 18.50,
-    originalPrice: 35,
-    qtyCurrent: 12,
-    qtyGoal: 15,
-    confirmedQty: 10,
-    holdQty: 2,
+    id: 'cs1',
+    name: 'Logitech M330 Silent Wireless Mouse',
+    imageUrl: 'https://picsum.photos/seed/mouse330/400/300',
+    currentPrice: 18.99,
+    originalPrice: 29.99,
+    qtyCurrent: 14,
+    qtyGoal: 20,
+    confirmedQty: 11,
+    holdQty: 3,
     timeRemaining: Duration(hours: 2, minutes: 15),
+    savingsPercentage: 37,
+    categoryTags: ['Electronics'],
   ),
   const SameProductDeal(
-    id: '2',
-    name: 'Artisan Dark Roast Coffee (5lbs)',
-    imageUrl: 'https://picsum.photos/seed/coffee/400/300',
-    currentPrice: 42,
-    originalPrice: 75,
+    id: 'cs2',
+    name: 'USB-C Hub 7-in-1 Adapter',
+    imageUrl: 'https://picsum.photos/seed/usbc/400/300',
+    currentPrice: 14.50,
+    originalPrice: 29.99,
     qtyCurrent: 8,
     qtyGoal: 10,
     confirmedQty: 6,
     holdQty: 2,
     timeRemaining: Duration(hours: 5, minutes: 30),
+    savingsPercentage: 52,
+    categoryTags: ['Electronics'],
+  ),
+  const SameProductDeal(
+    id: 'cs3',
+    name: 'A4 Mesh Document File Organizer (10 Pack)',
+    imageUrl: 'https://picsum.photos/seed/fileorganizer/400/300',
+    currentPrice: 12,
+    originalPrice: 22,
+    qtyCurrent: 6,
+    qtyGoal: 8,
+    confirmedQty: 4,
+    holdQty: 2,
+    timeRemaining: Duration(hours: 8),
+    savingsPercentage: 45,
+    categoryTags: ['Stationery'],
   ),
 ];
 
 final _sampleMaxSavingDeals = [
   const SameProductDeal(
-    id: '3',
-    name: 'A4 Sketchbook Bundle (Pack of 10)',
-    imageUrl: 'https://picsum.photos/seed/sketch/400/300',
-    currentPrice: 15,
-    originalPrice: 33,
+    id: 'ms1',
+    name: 'Arduino Uno R3 Starter Kit',
+    imageUrl: 'https://picsum.photos/seed/arduinokit/400/300',
+    currentPrice: 19.99,
+    originalPrice: 44.99,
     qtyCurrent: 22,
-    qtyGoal: 50,
+    qtyGoal: 30,
     confirmedQty: 15,
     holdQty: 7,
-    savingsPercentage: 55,
+    savingsPercentage: 56,
+    categoryTags: ['Lab Equipment', 'Electronics'],
   ),
   const SameProductDeal(
-    id: '4',
-    name: 'Wireless Earbuds Pro',
-    imageUrl: 'https://picsum.photos/seed/earbuds/400/300',
-    currentPrice: 29.99,
-    originalPrice: 59.99,
-    qtyCurrent: 30,
-    qtyGoal: 40,
-    confirmedQty: 25,
-    holdQty: 5,
-    savingsPercentage: 50,
+    id: 'ms2',
+    name: 'Breadboard + Jumper Wires Bundle',
+    imageUrl: 'https://picsum.photos/seed/breadboard/400/300',
+    currentPrice: 5.99,
+    originalPrice: 14.99,
+    qtyCurrent: 35,
+    qtyGoal: 50,
+    confirmedQty: 28,
+    holdQty: 7,
+    savingsPercentage: 60,
+    categoryTags: ['Lab Equipment'],
+  ),
+  const SameProductDeal(
+    id: 'ms3',
+    name: 'Mechanical Keyboard Switch Sampler (14 switches)',
+    imageUrl: 'https://picsum.photos/seed/switchsampler/400/300',
+    currentPrice: 8.99,
+    originalPrice: 19.99,
+    qtyCurrent: 18,
+    qtyGoal: 25,
+    confirmedQty: 12,
+    holdQty: 6,
+    savingsPercentage: 55,
+    categoryTags: ['Accessories'],
   ),
 ];
 
-final _sampleSuggestedDeals = <dynamic>[
+final _sampleSuggestedDeals = [
   const SameProductDeal(
-    id: '5',
-    name: 'Laundry Pods Mega Pack (120ct)',
-    imageUrl: 'https://picsum.photos/seed/laundry/400/400',
-    currentPrice: 21.99,
-    originalPrice: 39.99,
-    qtyCurrent: 45,
-    qtyGoal: 100,
+    id: 'sg1',
+    name: 'USB Flash Drive 64GB (10 Pack)',
+    imageUrl: 'https://picsum.photos/seed/usbdrive64/400/400',
+    currentPrice: 28,
+    originalPrice: 59.99,
+    qtyCurrent: 10,
+    qtyGoal: 20,
     timeRemaining: Duration(days: 2),
+    savingsPercentage: 53,
+    categoryTags: ['Electronics'],
   ),
   const SameProductDeal(
-    id: '6',
-    name: 'Instant Ramen Box (48 Pack)',
-    imageUrl: 'https://picsum.photos/seed/ramen/400/400',
-    currentPrice: 18,
-    originalPrice: 30,
-    qtyCurrent: 12,
-    qtyGoal: 48,
+    id: 'sg2',
+    name: 'Pilot G2 Gel Pen (12 Pack)',
+    imageUrl: 'https://picsum.photos/seed/pilotg2/400/400',
+    currentPrice: 9.99,
+    originalPrice: 21.60,
+    qtyCurrent: 18,
+    qtyGoal: 25,
     timeRemaining: Duration(days: 3),
+    savingsPercentage: 54,
+    categoryTags: ['Stationery'],
+  ),
+  const SameProductDeal(
+    id: 'sg3',
+    name: 'USB Desk Fan 12V for Lab Bench',
+    imageUrl: 'https://picsum.photos/seed/usbfan/400/400',
+    currentPrice: 7.50,
+    originalPrice: 15.99,
+    qtyCurrent: 5,
+    qtyGoal: 15,
+    timeRemaining: Duration(days: 4),
+    savingsPercentage: 53,
+    categoryTags: ['Electronics', 'Accessories'],
+  ),
+  const SameProductDeal(
+    id: 'sg4',
+    name: 'Scientific Calculator Casio FX-991EX',
+    imageUrl: 'https://picsum.photos/seed/casio991/400/400',
+    currentPrice: 16.99,
+    originalPrice: 34.99,
+    qtyCurrent: 8,
+    qtyGoal: 15,
+    timeRemaining: Duration(days: 5),
+    savingsPercentage: 51,
+    categoryTags: ['Electronics', 'Lab Equipment'],
+  ),
+  const SameProductDeal(
+    id: 'sg5',
+    name: 'Mechanical Pencil 0.5mm + Leads Bundle',
+    imageUrl: 'https://picsum.photos/seed/mecpencil/400/400',
+    currentPrice: 4.99,
+    originalPrice: 11.99,
+    qtyCurrent: 22,
+    qtyGoal: 30,
+    timeRemaining: Duration(days: 3),
+    savingsPercentage: 58,
+    categoryTags: ['Stationery'],
+  ),
+  const SameProductDeal(
+    id: 'sg6',
+    name: 'LED Desk Lamp USB Rechargeable',
+    imageUrl: 'https://picsum.photos/seed/ledlamp/400/400',
+    currentPrice: 11.99,
+    originalPrice: 24.99,
+    qtyCurrent: 7,
+    qtyGoal: 12,
+    timeRemaining: Duration(days: 6),
+    savingsPercentage: 52,
+    categoryTags: ['Electronics', 'Accessories'],
+  ),
+  const SameProductDeal(
+    id: 'sg7',
+    name: 'Soldering Iron Kit 60W with Stand',
+    imageUrl: 'https://picsum.photos/seed/soldering/400/400',
+    currentPrice: 13.50,
+    originalPrice: 29.99,
+    qtyCurrent: 4,
+    qtyGoal: 10,
+    timeRemaining: Duration(days: 7),
+    savingsPercentage: 55,
+    categoryTags: ['Lab Equipment'],
+  ),
+  const SameProductDeal(
+    id: 'sg8',
+    name: 'Whiteboard Markers (8 Colors, 24 Pack)',
+    imageUrl: 'https://picsum.photos/seed/wbmarkers/400/400',
+    currentPrice: 8.99,
+    originalPrice: 18.99,
+    qtyCurrent: 15,
+    qtyGoal: 20,
+    timeRemaining: Duration(days: 4),
+    savingsPercentage: 53,
+    categoryTags: ['Stationery'],
   ),
 ];
